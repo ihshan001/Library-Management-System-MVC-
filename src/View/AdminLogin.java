@@ -4,49 +4,25 @@
  */
 package View;
 import controller.LoginController;
+import controller.LoginHandler;
 import javax.swing.*;
 public class AdminLogin extends javax.swing.JFrame {
 
     
     private LoginController loginController;
+    private LoginHandler loginHandler;
     
     public AdminLogin() {
         initComponents();
         
         loginController = new LoginController();
+        loginHandler = new LoginHandler();
+         
     }
     
   
     
-    private void btnLogin(){
-     // Retrieve username and password
-        String username = txtUName.getText();
-        String password = new String(txtPass.getPassword());  // Get password from the password field
-
-        // Check if username and password fields are empty
-        if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter both username and password.", "Input Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            try {
-                // Authenticate using LoginController
-                boolean isAuthenticated = loginController.authenticateAdmin(username, password);
-
-                // If authentication is successful, redirect to AdminPage
-                if (isAuthenticated) {
-                    JOptionPane.showMessageDialog(this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    AdminPage adminPage = new AdminPage(); // Create and show the AdminPage
-                    adminPage.setVisible(true);
-                    this.setVisible(false);  // Close the current AdminLogin page
-                } else {
-                    // If authentication fails, show error message
-                    JOptionPane.showMessageDialog(this, "Invalid username or password.", "Authentication Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (Exception e) {
-                // Handle database connection or other exceptions
-                JOptionPane.showMessageDialog(this, "An error occurred while connecting to the database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -81,7 +57,7 @@ public class AdminLogin extends javax.swing.JFrame {
         rSButtonHover1.setBackground(new java.awt.Color(0, 44, 76));
         rSButtonHover1.setText("X");
         rSButtonHover1.setColorHover(new java.awt.Color(51, 51, 51));
-        rSButtonHover1.setColorTextHover(new java.awt.Color(255, 153, 0));
+        rSButtonHover1.setColorTextHover(new java.awt.Color(89, 255, 255));
         rSButtonHover1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rSButtonHover1ActionPerformed(evt);
@@ -93,13 +69,13 @@ public class AdminLogin extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Source Sans 3 Black", 0, 36)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(5, 76, 126));
         jLabel6.setText("Sign");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 32, -1, 50));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, -1, 50));
 
         jLabel4.setBackground(new java.awt.Color(255, 102, 0));
         jLabel4.setFont(new java.awt.Font("Source Sans 3 Black", 0, 38)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(89, 255, 255));
         jLabel4.setText("In");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 40, -1));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, 40, -1));
 
         jLabel5.setFont(new java.awt.Font("Source Sans 3 SemiBold", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -107,13 +83,12 @@ public class AdminLogin extends javax.swing.JFrame {
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, -1));
 
         txtUName.setBackground(new java.awt.Color(0, 0, 0));
-        txtUName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(89, 255, 255)));
-        txtUName.setForeground(new java.awt.Color(255, 102, 0));
-        txtUName.setBorderColor(new java.awt.Color(153, 153, 153));
+        txtUName.setForeground(new java.awt.Color(89, 255, 255));
+        txtUName.setBorderColor(new java.awt.Color(89, 255, 255));
         txtUName.setFont(new java.awt.Font("Tw Cen MT", 0, 18)); // NOI18N
         txtUName.setPhColor(new java.awt.Color(89, 255, 255));
         txtUName.setPlaceholder("Enter Username");
-        jPanel1.add(txtUName, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, -1, 40));
+        jPanel1.add(txtUName, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 310, 40));
 
         jLabel3.setFont(new java.awt.Font("Source Sans 3 SemiBold", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -122,13 +97,13 @@ public class AdminLogin extends javax.swing.JFrame {
 
         txtPass.setBackground(new java.awt.Color(0, 0, 0));
         txtPass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(89, 255, 255)));
-        txtPass.setForeground(new java.awt.Color(255, 102, 0));
+        txtPass.setForeground(new java.awt.Color(89, 255, 255));
         txtPass.setFont(new java.awt.Font("Tw Cen MT", 0, 18)); // NOI18N
         txtPass.setPhColor(new java.awt.Color(89, 255, 255));
         txtPass.setPlaceholder("Enter Password");
-        jPanel1.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 250, 40));
+        jPanel1.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 310, 40));
 
-        btnLogin.setBackground(new java.awt.Color(0, 44, 76));
+        btnLogin.setBackground(new java.awt.Color(67, 150, 209));
         btnLogin.setText("login");
         btnLogin.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -136,17 +111,19 @@ public class AdminLogin extends javax.swing.JFrame {
                 btnLoginMouseClicked(evt);
             }
         });
-        jPanel1.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 112, 38));
+        jPanel1.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, 112, 38));
 
-        resetBtn.setBackground(new java.awt.Color(67, 150, 209));
+        resetBtn.setBackground(new java.awt.Color(0, 44, 76));
+        resetBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(67, 150, 209), 2));
         resetBtn.setText("reset");
         resetBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        resetBtn.setRippleColor(new java.awt.Color(67, 150, 209));
         resetBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 resetBtnMouseClicked(evt);
             }
         });
-        jPanel1.add(resetBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 114, 38));
+        jPanel1.add(resetBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 270, 114, 38));
 
         signUpBtn.setText("Sign Up");
         signUpBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -205,7 +182,7 @@ public class AdminLogin extends javax.swing.JFrame {
 
     private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
         // TODO add your handling code here:
-        btnLogin();
+        loginHandler.performLogin(this, txtUName, txtPass, "admin");
     }//GEN-LAST:event_btnLoginMouseClicked
 
     /**

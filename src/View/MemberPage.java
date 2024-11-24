@@ -4,7 +4,6 @@
  */
 package View;
 
-
 import Model.Book;
 import Model.DatabaseConnection;
 import controller.BookController;
@@ -15,32 +14,30 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
 /**
  *
  * @author AL MUBDIE
  */
 public class MemberPage extends javax.swing.JFrame {
-private BookController bookController;
-  
-    
+
+    private BookController bookController;
+
     public MemberPage() {
         initComponents();
-       try {
+        try {
             // Initialize controllers with the shared connection
             Connection connection = DatabaseConnection.getConnection();
-            
+
             this.bookController = new BookController(connection);
-            
 
             // Load the member table on initialization
-            
             loadAllBooks();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error initializing database connection: " + e.getMessage());
         }
-     
+
     }
+
     // Method to load all books into the table
     private void loadAllBooks() {
         try {
@@ -81,7 +78,7 @@ private BookController bookController;
             JOptionPane.showMessageDialog(this, "Error searching books: " + e.getMessage());
         }
     }
-    
+
     private void resetFields() {
         txtTitleSearch.setText("");
         txtAuthorSearch.setText("");
@@ -110,13 +107,16 @@ private BookController bookController;
         txtGenreSearch = new rojerusan.RSMetroTextPlaceHolder();
         btnSearch = new necesario.RSMaterialButtonCircle();
         imgSearch = new rojerusan.RSLabelImage();
-        jPanel4 = new javax.swing.JPanel();
         rSPanelImage1 = new rojerusan.RSPanelImage();
         btnSearchPanel = new rojeru_san.complementos.RSButtonHover();
         btnLogout = new rojeru_san.complementos.RSButtonHover();
-        btnMemberPage = new rojeru_san.complementos.RSButtonHover();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -153,22 +153,22 @@ private BookController bookController;
         });
         jScrollPane4.setViewportView(tblBookSearch);
 
-        jPanel3.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 190, 810, 360));
+        jPanel3.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 190, 810, 430));
 
         jLabel1.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 15)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(89, 104, 215));
         jLabel1.setText("Book Title");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 100, 36));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 100, 36));
 
         jLabel2.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 15)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(89, 104, 215));
         jLabel2.setText("Book Author");
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, 100, 36));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, 100, 36));
 
         jLabel3.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(89, 104, 215));
         jLabel3.setText("Book Genre");
-        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 100, -1));
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 100, -1));
 
         txtTitleSearch.setBackground(new java.awt.Color(0, 0, 81));
         txtTitleSearch.setForeground(new java.awt.Color(89, 255, 255));
@@ -176,7 +176,7 @@ private BookController bookController;
         txtTitleSearch.setFont(new java.awt.Font("Source Sans 3 Light", 1, 14)); // NOI18N
         txtTitleSearch.setPhColor(new java.awt.Color(89, 255, 255));
         txtTitleSearch.setPlaceholder("Enter Book Name");
-        jPanel3.add(txtTitleSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, 230, 40));
+        jPanel3.add(txtTitleSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 230, 40));
 
         txtAuthorSearch.setBackground(new java.awt.Color(0, 0, 81));
         txtAuthorSearch.setForeground(new java.awt.Color(89, 255, 255));
@@ -184,7 +184,7 @@ private BookController bookController;
         txtAuthorSearch.setFont(new java.awt.Font("Source Sans 3 Light", 1, 14)); // NOI18N
         txtAuthorSearch.setPhColor(new java.awt.Color(89, 255, 255));
         txtAuthorSearch.setPlaceholder("Enter Author Name");
-        jPanel3.add(txtAuthorSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 230, 40));
+        jPanel3.add(txtAuthorSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 40, 230, 40));
 
         txtGenreSearch.setBackground(new java.awt.Color(0, 0, 81));
         txtGenreSearch.setForeground(new java.awt.Color(89, 255, 255));
@@ -192,7 +192,7 @@ private BookController bookController;
         txtGenreSearch.setFont(new java.awt.Font("Source Sans 3 Light", 1, 14)); // NOI18N
         txtGenreSearch.setPhColor(new java.awt.Color(89, 255, 255));
         txtGenreSearch.setPlaceholder("Enter Genre");
-        jPanel3.add(txtGenreSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, 230, 40));
+        jPanel3.add(txtGenreSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 230, 40));
 
         btnSearch.setText("Search");
         btnSearch.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 12)); // NOI18N
@@ -201,25 +201,14 @@ private BookController bookController;
                 btnSearchMouseClicked(evt);
             }
         });
-        jPanel3.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 90, 60, 50));
+        jPanel3.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 60, 50));
 
         imgSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg/1000_F_171744995_u4KjXeKS61D3oxApKNHpJkKV81iA7dSs.jpg"))); // NOI18N
-        jPanel3.add(imgSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 0, 830, 560));
+        jPanel3.add(imgSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -10, 850, 690));
 
         panelMemberSearch.addTab("tab1", jPanel3);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 560, Short.MAX_VALUE)
-        );
-
-        panelMemberSearch.addTab("tab2", jPanel4);
+        jPanel1.add(panelMemberSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(141, -26, 820, 670));
 
         rSPanelImage1.setImagen(new javax.swing.ImageIcon(getClass().getResource("/Images/bg/panelbg.jpg"))); // NOI18N
         rSPanelImage1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -234,7 +223,7 @@ private BookController bookController;
                 btnSearchPanelMouseClicked(evt);
             }
         });
-        rSPanelImage1.add(btnSearchPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 150, 37));
+        rSPanelImage1.add(btnSearchPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 150, 37));
 
         btnLogout.setBackground(new java.awt.Color(0, 0, 81));
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logout.png"))); // NOI18N
@@ -247,44 +236,23 @@ private BookController bookController;
         });
         rSPanelImage1.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 450, 150, 37));
 
-        btnMemberPage.setBackground(new java.awt.Color(89, 40, 237));
-        btnMemberPage.setForeground(new java.awt.Color(89, 40, 237));
-        btnMemberPage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/user12.png"))); // NOI18N
-        btnMemberPage.setText("Member");
-        btnMemberPage.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
-        btnMemberPage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnMemberPageMouseClicked(evt);
-            }
-        });
-        rSPanelImage1.add(btnMemberPage, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 150, 37));
+        jLabel4.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 15)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(89, 104, 215));
+        jLabel4.setText("WelCome");
+        rSPanelImage1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 80, 30));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(rSPanelImage1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelMemberSearch))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelMemberSearch))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(rSPanelImage1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        jLabel5.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(89, 104, 215));
+        jLabel5.setText("Member");
+        rSPanelImage1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 110, 36));
+
+        jPanel1.add(rSPanelImage1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 650));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,11 +260,8 @@ private BookController bookController;
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tblBookSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookSearchMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblBookSearchMouseClicked
 
     private void btnSearchPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchPanelMouseClicked
         // TODO add your handling code here:
@@ -305,9 +270,13 @@ private BookController bookController;
 
     private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
         // TODO add your handling code here:
-        MemberLogin memberLogin=new MemberLogin();
-        memberLogin.setVisible(true);
-        this.dispose();
+        int response = javax.swing.JOptionPane.showConfirmDialog(this, "Do you really want to log out?", "Confirm Logout", javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (response == javax.swing.JOptionPane.YES_OPTION) {
+            MemberLogin memberLogin = new MemberLogin();
+            memberLogin.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnLogoutMouseClicked
 
     private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
@@ -315,10 +284,9 @@ private BookController bookController;
         searchBooks();
     }//GEN-LAST:event_btnSearchMouseClicked
 
-    private void btnMemberPageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMemberPageMouseClicked
+    private void tblBookSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookSearchMouseClicked
         // TODO add your handling code here:
-        panelMemberSearch.setSelectedIndex(1);
-    }//GEN-LAST:event_btnMemberPageMouseClicked
+    }//GEN-LAST:event_tblBookSearchMouseClicked
 
     /**
      * @param args the command line arguments
@@ -357,16 +325,16 @@ private BookController bookController;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojeru_san.complementos.RSButtonHover btnLogout;
-    private rojeru_san.complementos.RSButtonHover btnMemberPage;
     private necesario.RSMaterialButtonCircle btnSearch;
     private rojeru_san.complementos.RSButtonHover btnSearchPanel;
     private rojerusan.RSLabelImage imgSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane panelMemberSearch;
     private rojerusan.RSPanelImage rSPanelImage1;

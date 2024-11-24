@@ -2,55 +2,22 @@
 package View;
 
 import controller.LoginController;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
+
+import controller.LoginHandler;
 
 
 public class MemberLogin extends javax.swing.JFrame {
-    private JTextField txtTitle, txtAuthor;
-    private JButton btnSearch;
-    private JTable tblBooks;
-    private DefaultTableModel tblModel;
-    
+     private LoginHandler loginHandler;
     private LoginController loginController;
  
     public MemberLogin() {
         initComponents();
         loginController = new LoginController();
+        loginHandler = new LoginHandler();
     }
 
-    private void btnLogin(){
-     // Retrieve username and password
-        String username = txtUName.getText();
-        String password = new String(txtPass.getPassword());  // Get password from the password field
-
-        // Check if username and password fields are empty
-        if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please enter both username and password.", "Input Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            try {
-                // Authenticate using LoginController
-                boolean isAuthenticated = loginController.authenticateMember(username, password);
-
-                // If authentication is successful, redirect to AdminPage
-                if (isAuthenticated) {
-                    JOptionPane.showMessageDialog(this, "Login Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    MemberPage memberPage = new MemberPage(); // Create and show the AdminPage
-                    memberPage.setVisible(true);
-                    this.setVisible(false);  // Close the current AdminLogin page
-                } else {
-                    // If authentication fails, show error message
-                    JOptionPane.showMessageDialog(this, "Invalid username or password.", "Authentication Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (Exception e) {
-                // Handle database connection or other exceptions
-                JOptionPane.showMessageDialog(this, "An error occurred while connecting to the database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
+    
  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -70,6 +37,7 @@ public class MemberLogin extends javax.swing.JFrame {
         rSLabelImage1 = new rojerusan.RSLabelImage();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -80,7 +48,7 @@ public class MemberLogin extends javax.swing.JFrame {
 
         txtPass.setBackground(new java.awt.Color(0, 0, 0));
         txtPass.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(89, 255, 255)));
-        txtPass.setForeground(new java.awt.Color(255, 102, 0));
+        txtPass.setForeground(new java.awt.Color(89, 255, 255));
         txtPass.setFont(new java.awt.Font("Tw Cen MT", 0, 18)); // NOI18N
         txtPass.setPhColor(new java.awt.Color(89, 255, 255));
         txtPass.setPlaceholder("Enter Password");
@@ -92,9 +60,8 @@ public class MemberLogin extends javax.swing.JFrame {
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, -1, -1));
 
         txtUName.setBackground(new java.awt.Color(0, 0, 0));
-        txtUName.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(89, 255, 255)));
-        txtUName.setForeground(new java.awt.Color(255, 102, 0));
-        txtUName.setBorderColor(new java.awt.Color(153, 153, 153));
+        txtUName.setForeground(new java.awt.Color(89, 255, 255));
+        txtUName.setBorderColor(new java.awt.Color(89, 255, 255));
         txtUName.setFont(new java.awt.Font("Tw Cen MT", 0, 18)); // NOI18N
         txtUName.setPhColor(new java.awt.Color(89, 255, 255));
         txtUName.setPlaceholder("Enter Username");
@@ -120,7 +87,7 @@ public class MemberLogin extends javax.swing.JFrame {
         rSButtonHover1.setBackground(new java.awt.Color(0, 44, 76));
         rSButtonHover1.setText("X");
         rSButtonHover1.setColorHover(new java.awt.Color(51, 51, 51));
-        rSButtonHover1.setColorTextHover(new java.awt.Color(255, 153, 0));
+        rSButtonHover1.setColorTextHover(new java.awt.Color(89, 255, 255));
         rSButtonHover1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rSButtonHover1ActionPerformed(evt);
@@ -163,6 +130,7 @@ public class MemberLogin extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void rSButtonHover1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonHover1ActionPerformed
@@ -172,8 +140,7 @@ public class MemberLogin extends javax.swing.JFrame {
 
     private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
         // TODO add your handling code here:
-        btnLogin();
-        
+        loginHandler.performLogin(this, txtUName, txtPass, "member");
     }//GEN-LAST:event_btnLoginMouseClicked
 
     private void resetBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetBtnMouseClicked

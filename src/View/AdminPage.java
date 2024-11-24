@@ -15,22 +15,19 @@ import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-
 public class AdminPage extends javax.swing.JFrame {
 
-     private MemberController memberController;
-     private BookController bookController;
+    private MemberController memberController;
+    private BookController bookController;
 
     public AdminPage() {
         initComponents();
-        
-        
-       try {
+
+        try {
             // Initialize controllers with the shared connection
             Connection connection = DatabaseConnection.getConnection();
             this.memberController = new MemberController(connection);
             this.bookController = new BookController(connection);
-            
 
             // Load the member table on initialization
             loadMemberTable();
@@ -40,32 +37,29 @@ public class AdminPage extends javax.swing.JFrame {
         }
     }
 
-    
-    
-
-
-   // Method to load all members into the table
-private void loadMemberTable() {
-    try {
-        DefaultTableModel model = (DefaultTableModel) tblMember.getModel();
-        model.setRowCount(0); // Clear existing rows
-        List<Member> members = memberController.getAllMembers();
-        for (Member member : members) {
-            model.addRow(new Object[]{
-                member.getMemberID(), 
-                member.getName(), 
-                member.getContactNo(), 
-                member.getAddress(), 
-                member.getMembershipCard().getCardNumber(),
-                member.getMembershipCard().getExpiryDate(),  // Add expiryDate
-                member.getPassword()  // Add password
-            });
+    // Method to load all members into the table
+    private void loadMemberTable() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) tblMember.getModel();
+            model.setRowCount(0); // Clear existing rows
+            List<Member> members = memberController.getAllMembers();
+            for (Member member : members) {
+                model.addRow(new Object[]{
+                    member.getMemberID(),
+                    member.getName(),
+                    member.getContactNo(),
+                    member.getAddress(),
+                    member.getMembershipCard().getCardNumber(),
+                    member.getMembershipCard().getExpiryDate(), // Add expiryDate
+                    member.getPassword() // Add password
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading members: " + e.getMessage());
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error loading members: " + e.getMessage());
     }
-}
 // Method to load all books into the table
+
     private void loadBookTable() {
         try {
             DefaultTableModel model = (DefaultTableModel) tblBook.getModel();
@@ -139,33 +133,33 @@ private void loadMemberTable() {
             JOptionPane.showMessageDialog(this, "Error updating member: " + e.getMessage());
         }
     }
-    
-    private void memberMouse() {
-    int selectedRow = tblMember.getSelectedRow();
-    if (selectedRow >= 0) {
-        // Get member ID
-        int memberID = Integer.parseInt(tblMember.getValueAt(selectedRow, 0).toString());
 
-        // Populate text fields with the selected member's details
-        txtMemberID.setText(tblMember.getValueAt(selectedRow, 0).toString());
-        txtMemberName.setText(tblMember.getValueAt(selectedRow, 1).toString());
-        txtContactNo.setText(tblMember.getValueAt(selectedRow, 2).toString());
-        txtAddress.setText(tblMember.getValueAt(selectedRow, 3).toString());
-        txtCardNumber.setText(tblMember.getValueAt(selectedRow, 4).toString());
-        
-        // Get expiry date and set it in the date picker
-        String expiryDateStr = tblMember.getValueAt(selectedRow, 5).toString();
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date expiryDate = dateFormat.parse(expiryDateStr);
-            expiryDateField.setDate(expiryDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+    private void memberMouse() {
+        int selectedRow = tblMember.getSelectedRow();
+        if (selectedRow >= 0) {
+            // Get member ID
+            int memberID = Integer.parseInt(tblMember.getValueAt(selectedRow, 0).toString());
+
+            // Populate text fields with the selected member's details
+            txtMemberID.setText(tblMember.getValueAt(selectedRow, 0).toString());
+            txtMemberName.setText(tblMember.getValueAt(selectedRow, 1).toString());
+            txtContactNo.setText(tblMember.getValueAt(selectedRow, 2).toString());
+            txtAddress.setText(tblMember.getValueAt(selectedRow, 3).toString());
+            txtCardNumber.setText(tblMember.getValueAt(selectedRow, 4).toString());
+
+            // Get expiry date and set it in the date picker
+            String expiryDateStr = tblMember.getValueAt(selectedRow, 5).toString();
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date expiryDate = dateFormat.parse(expiryDateStr);
+                expiryDateField.setDate(expiryDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            // Set password (if needed)
+            txtPassword.setText(tblMember.getValueAt(selectedRow, 6).toString());
         }
-        
-        // Set password (if needed)
-        txtPassword.setText(tblMember.getValueAt(selectedRow, 6).toString());
-    }
     }
 
 // Delete Member Button
@@ -196,17 +190,17 @@ private void loadMemberTable() {
 
     // Method to reset all input fields
     private void resetFields() {
-            txtMemberID.setText("");
-            txtMemberName.setText("");
-            txtContactNo.setText("");
-            txtAddress.setText("");
-            txtPassword.setText("");
-            txtCardNumber.setText("");
-            txtConfirmPassword.setText("");
-            expiryDateField.setDate(null);
+        txtMemberID.setText("");
+        txtMemberName.setText("");
+        txtContactNo.setText("");
+        txtAddress.setText("");
+        txtPassword.setText("");
+        txtCardNumber.setText("");
+        txtConfirmPassword.setText("");
+        expiryDateField.setDate(null);
     }
-    
-     // Add Book Button
+
+    // Add Book Button
     private void addBook() {
         try {
             String title = txtTitle.getText();
@@ -233,7 +227,9 @@ private void loadMemberTable() {
     private void updateBook() {
         try {
             int selectedRow = tblBook.getSelectedRow();
-            if (selectedRow < 0) throw new Exception("No book selected!");
+            if (selectedRow < 0) {
+                throw new Exception("No book selected!");
+            }
 
             int bookID = Integer.parseInt(tblBook.getValueAt(selectedRow, 0).toString());
             String title = txtTitle.getText();
@@ -260,7 +256,9 @@ private void loadMemberTable() {
     private void deleteBook() {
         try {
             int selectedRow = tblBook.getSelectedRow();
-            if (selectedRow < 0) throw new Exception("No book selected!");
+            if (selectedRow < 0) {
+                throw new Exception("No book selected!");
+            }
 
             int bookID = Integer.parseInt(tblBook.getValueAt(selectedRow, 0).toString());
             bookController.deleteBook(bookID);
@@ -279,12 +277,13 @@ private void loadMemberTable() {
         yearPublished.setDate(null);
     }
 
-    
     // Method to handle when a table row is clicked for updating or deleting
     private void bookMouse() {
         try {
             int selectedRow = tblBook.getSelectedRow();
-            if (selectedRow < 0) return;
+            if (selectedRow < 0) {
+                return;
+            }
 
             txtTitle.setText(tblBook.getValueAt(selectedRow, 1).toString());
             txtAuthor.setText(tblBook.getValueAt(selectedRow, 2).toString());
@@ -304,6 +303,7 @@ private void loadMemberTable() {
         jPanel2 = new javax.swing.JPanel();
         btnMember = new rojeru_san.complementos.RSButtonHover();
         btnBook = new rojeru_san.complementos.RSButtonHover();
+        btnAdminRegister = new rojeru_san.complementos.RSButtonHover();
         btnLogout = new rojeru_san.complementos.RSButtonHover();
         btnExit = new rojeru_san.complementos.RSButtonHover();
         panelTab = new javax.swing.JTabbedPane();
@@ -351,6 +351,7 @@ private void loadMemberTable() {
         imgBackBook = new rojerusan.RSLabelImage();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -362,7 +363,8 @@ private void loadMemberTable() {
         btnMember.setBackground(new java.awt.Color(0, 0, 81));
         btnMember.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add-user (1).jpg"))); // NOI18N
         btnMember.setText("Member");
-        btnMember.setColorHover(new java.awt.Color(0, 44, 76));
+        btnMember.setColorHover(new java.awt.Color(0, 191, 125));
+        btnMember.setColorTextHover(new java.awt.Color(89, 255, 255));
         btnMember.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
         btnMember.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -374,7 +376,8 @@ private void loadMemberTable() {
         btnBook.setBackground(new java.awt.Color(89, 40, 237));
         btnBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/book.png"))); // NOI18N
         btnBook.setText("Book");
-        btnBook.setColorHover(new java.awt.Color(0, 44, 76));
+        btnBook.setColorHover(new java.awt.Color(0, 191, 125));
+        btnBook.setColorTextHover(new java.awt.Color(89, 255, 255));
         btnBook.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
         btnBook.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -383,9 +386,24 @@ private void loadMemberTable() {
         });
         jPanel2.add(btnBook);
 
+        btnAdminRegister.setBackground(new java.awt.Color(0, 0, 81));
+        btnAdminRegister.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add-user (1).jpg"))); // NOI18N
+        btnAdminRegister.setText("Admin");
+        btnAdminRegister.setColorHover(new java.awt.Color(0, 191, 125));
+        btnAdminRegister.setColorTextHover(new java.awt.Color(89, 255, 255));
+        btnAdminRegister.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
+        btnAdminRegister.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAdminRegisterMouseClicked(evt);
+            }
+        });
+        jPanel2.add(btnAdminRegister);
+
         btnLogout.setBackground(new java.awt.Color(0, 0, 81));
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logout.png"))); // NOI18N
         btnLogout.setText("LogOut");
+        btnLogout.setColorHover(new java.awt.Color(0, 191, 125));
+        btnLogout.setColorTextHover(new java.awt.Color(89, 255, 255));
         btnLogout.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
         btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -397,7 +415,7 @@ private void loadMemberTable() {
         btnExit.setBackground(new java.awt.Color(89, 40, 237));
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/off.png"))); // NOI18N
         btnExit.setText("Exit");
-        btnExit.setColorHover(new java.awt.Color(0, 44, 76));
+        btnExit.setColorHover(new java.awt.Color(0, 191, 125));
         btnExit.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
         btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -412,7 +430,8 @@ private void loadMemberTable() {
             imgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(imgPanelLayout.createSequentialGroup()
                 .addGap(170, 170, 170)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(132, Short.MAX_VALUE))
         );
         imgPanelLayout.setVerticalGroup(
             imgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -774,6 +793,7 @@ private void loadMemberTable() {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMemberMouseClicked
@@ -787,7 +807,14 @@ private void loadMemberTable() {
     }//GEN-LAST:event_btnBookMouseClicked
 
     private void btnLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLogoutMouseClicked
-        // TODO add your handling code here:
+
+        int response = javax.swing.JOptionPane.showConfirmDialog(this, "Do you really want to log out?", "Confirm Logout", javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (response == javax.swing.JOptionPane.YES_OPTION) {
+            this.setVisible(false);
+            AdminLogin adminLogin = new AdminLogin();
+            adminLogin.setVisible(true);
+        }
     }//GEN-LAST:event_btnLogoutMouseClicked
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
@@ -811,7 +838,13 @@ private void loadMemberTable() {
     }//GEN-LAST:event_btnResetMouseClicked
 
     private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
-        // TODO add your handling code here:
+
+        int response = javax.swing.JOptionPane.showConfirmDialog(this, "Do you really want to exit?", "Exit", javax.swing.JOptionPane.YES_NO_OPTION);
+
+        // Exit if user clicks "Yes"
+        if (response == javax.swing.JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_btnExitMouseClicked
 
     private void tblMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMemberMouseClicked
@@ -843,32 +876,41 @@ private void loadMemberTable() {
         addBook();
     }//GEN-LAST:event_btnAddBookMouseClicked
 
+    private void btnAdminRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminRegisterMouseClicked
+        // TODO add your handling code here:
+       Registration r=new Registration();
+        r.setVisible(true);
+        this.dispose();
+        
+    }//GEN-LAST:event_btnAdminRegisterMouseClicked
+
     /**
      * @param args the command line arguments
      */
-   public static void main(String args[]) {
-     try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+    public static void main(String args[]) {
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-    } catch (Exception ex) {
-        ex.printStackTrace();
-    }
-    //</editor-fold>
+        //</editor-fold>
 
-    /* Create and display the AdminPage form */
-    java.awt.EventQueue.invokeLater(() -> {
-        new AdminPage().setVisible(true);
-    });
-}
+        /* Create and display the AdminPage form */
+        java.awt.EventQueue.invokeLater(() -> {
+            new AdminPage().setVisible(true);
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private rojerusan.RSLabelImage backGroundImage;
     private rojerusan.RSButtonMetro btnAdd;
     private rojerusan.RSButtonMetro btnAddBook;
+    private rojeru_san.complementos.RSButtonHover btnAdminRegister;
     private rojeru_san.complementos.RSButtonHover btnBook;
     private rojerusan.RSButtonMetro btnDelete;
     private rojerusan.RSButtonMetro btnDeleteBook;

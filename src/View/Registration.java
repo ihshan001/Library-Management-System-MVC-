@@ -4,19 +4,48 @@
  */
 package View;
 
+import Model.AdminModel;
+import controller.AdminController;
+
 /**
  *
  * @author AL MUBDIE
  */
 public class Registration extends javax.swing.JFrame {
+    private AdminController adminController;
 
     /**
      * Creates new form Registration
      */
     public Registration() {
         initComponents();
+        adminController = new AdminController();
+        
+        
     }
+    
+    private void btnRegister() {
+        // Create an instance of AdminModel and set the values from the text fields
+        AdminModel adminModel = new AdminModel();
+        adminModel.setName(txtName.getText());
+        adminModel.setUsername(txtUName.getText());
+        adminModel.setAddress(txtAddress.getText());
+        adminModel.setContactNo(txtContactNo.getText());
+        adminModel.setPassword(new String(txtPassword.getPassword()));
+        adminModel.setConfirmPassword(new String(txtConfirmPassword.getPassword()));  // Assume you have this field in the GUI
 
+        // Call the registerAdmin method from the controller to handle registration
+        boolean isRegistered = adminController.registerAdmin(adminModel);
+
+        
+        if (isRegistered) {
+            AdminLogin adminLogin=new AdminLogin();
+            adminLogin.setVisible(true);
+            this.dispose();  // Close the registration form
+        }
+    
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,21 +55,213 @@ public class Registration extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        rSButtonHover1 = new rojerusan.RSButtonHover();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtUName = new rojerusan.RSMetroTextPlaceHolder();
+        jLabel3 = new javax.swing.JLabel();
+        txtPassword = new rojerusan.RSPasswordTextPlaceHolder();
+        btnRegister = new rojerusan.RSMaterialButtonRectangle();
+        resetBtn = new rojerusan.RSMaterialButtonRectangle();
+        txtContactNo = new rojerusan.RSMetroTextPlaceHolder();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        txtConfirmPassword = new rojerusan.RSPasswordTextPlaceHolder();
+        txtName = new rojerusan.RSMetroTextPlaceHolder();
+        jLabel9 = new javax.swing.JLabel();
+        txtAddress = new rojerusan.RSMetroTextPlaceHolder();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        signUpBtn = new rojerusan.RSMaterialButtonRectangle();
+        rSLabelImage2 = new rojerusan.RSLabelImage();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel6.setBackground(new java.awt.Color(0, 112, 192));
+        jLabel6.setFont(new java.awt.Font("Source Sans 3 Black", 0, 36)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(5, 76, 126));
+        jLabel6.setText("Sign");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 20, -1, 50));
+
+        rSButtonHover1.setBackground(new java.awt.Color(0, 44, 76));
+        rSButtonHover1.setText("X");
+        rSButtonHover1.setColorHover(new java.awt.Color(51, 51, 51));
+        rSButtonHover1.setColorTextHover(new java.awt.Color(89, 255, 255));
+        rSButtonHover1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSButtonHover1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(rSButtonHover1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 30));
+
+        jLabel4.setBackground(new java.awt.Color(255, 102, 0));
+        jLabel4.setFont(new java.awt.Font("Source Sans 3 Black", 0, 38)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(89, 255, 255));
+        jLabel4.setText("Up");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 20, 50, -1));
+
+        jLabel5.setFont(new java.awt.Font("Source Sans 3 SemiBold", 0, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(89, 255, 255));
+        jLabel5.setText("Already have an account?");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 190, -1, -1));
+
+        txtUName.setBackground(new java.awt.Color(0, 0, 0));
+        txtUName.setForeground(new java.awt.Color(89, 255, 255));
+        txtUName.setBorderColor(new java.awt.Color(89, 255, 255));
+        txtUName.setFont(new java.awt.Font("Tw Cen MT", 0, 18)); // NOI18N
+        txtUName.setPhColor(new java.awt.Color(89, 255, 255));
+        txtUName.setPlaceholder("Enter Username");
+        jPanel1.add(txtUName, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 120, -1, 40));
+
+        jLabel3.setFont(new java.awt.Font("Source Sans 3 SemiBold", 0, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(89, 255, 255));
+        jLabel3.setText("Password");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, -1, -1));
+
+        txtPassword.setBackground(new java.awt.Color(0, 0, 0));
+        txtPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(89, 255, 255)));
+        txtPassword.setForeground(new java.awt.Color(89, 255, 255));
+        txtPassword.setFont(new java.awt.Font("Tw Cen MT", 0, 18)); // NOI18N
+        txtPassword.setPhColor(new java.awt.Color(89, 255, 255));
+        txtPassword.setPlaceholder("Enter Password");
+        jPanel1.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, 250, 40));
+
+        btnRegister.setBackground(new java.awt.Color(67, 150, 209));
+        btnRegister.setText("Register");
+        btnRegister.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnRegister.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRegisterMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnRegister, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 390, 140, 40));
+
+        resetBtn.setBackground(new java.awt.Color(0, 44, 76));
+        resetBtn.setText("reset");
+        resetBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        resetBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resetBtnMouseClicked(evt);
+            }
+        });
+        jPanel1.add(resetBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, 140, 40));
+
+        txtContactNo.setBackground(new java.awt.Color(0, 0, 0));
+        txtContactNo.setForeground(new java.awt.Color(89, 255, 255));
+        txtContactNo.setBorderColor(new java.awt.Color(89, 255, 255));
+        txtContactNo.setFont(new java.awt.Font("Tw Cen MT", 0, 18)); // NOI18N
+        txtContactNo.setPhColor(new java.awt.Color(89, 255, 255));
+        txtContactNo.setPlaceholder("Enter Phone No");
+        jPanel1.add(txtContactNo, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 210, -1, 40));
+
+        jLabel7.setFont(new java.awt.Font("Source Sans 3 SemiBold", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(89, 255, 255));
+        jLabel7.setText("Contact No");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, -1, -1));
+
+        jLabel8.setFont(new java.awt.Font("Source Sans 3 SemiBold", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(89, 255, 255));
+        jLabel8.setText("Confirm Password");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, -1, -1));
+
+        txtConfirmPassword.setBackground(new java.awt.Color(0, 0, 0));
+        txtConfirmPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(89, 255, 255)));
+        txtConfirmPassword.setForeground(new java.awt.Color(89, 255, 255));
+        txtConfirmPassword.setFont(new java.awt.Font("Tw Cen MT", 0, 18)); // NOI18N
+        txtConfirmPassword.setPhColor(new java.awt.Color(89, 255, 255));
+        txtConfirmPassword.setPlaceholder("Confirm Password");
+        jPanel1.add(txtConfirmPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 310, 250, 40));
+
+        txtName.setBackground(new java.awt.Color(0, 0, 0));
+        txtName.setForeground(new java.awt.Color(89, 255, 255));
+        txtName.setBorderColor(new java.awt.Color(89, 255, 255));
+        txtName.setFont(new java.awt.Font("Tw Cen MT", 0, 18)); // NOI18N
+        txtName.setPhColor(new java.awt.Color(89, 255, 255));
+        txtName.setPlaceholder("Enter Full Name");
+        jPanel1.add(txtName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, 40));
+
+        jLabel9.setFont(new java.awt.Font("Source Sans 3 SemiBold", 0, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(89, 255, 255));
+        jLabel9.setText("Full Name");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
+
+        txtAddress.setBackground(new java.awt.Color(0, 0, 0));
+        txtAddress.setForeground(new java.awt.Color(89, 255, 255));
+        txtAddress.setBorderColor(new java.awt.Color(89, 255, 255));
+        txtAddress.setFont(new java.awt.Font("Tw Cen MT", 0, 18)); // NOI18N
+        txtAddress.setPhColor(new java.awt.Color(89, 255, 255));
+        txtAddress.setPlaceholder("Enter Address");
+        jPanel1.add(txtAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, -1, 40));
+
+        jLabel10.setFont(new java.awt.Font("Source Sans 3 SemiBold", 0, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(89, 255, 255));
+        jLabel10.setText("Address");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Source Sans 3 SemiBold", 0, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(89, 255, 255));
+        jLabel11.setText("Username");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, -1, -1));
+
+        signUpBtn.setText("Sign in");
+        signUpBtn.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        signUpBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                signUpBtnMouseClicked(evt);
+            }
+        });
+        jPanel1.add(signUpBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 230, 150, 50));
+
+        rSLabelImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg/login21.jpg"))); // NOI18N
+        jPanel1.add(rSLabelImage2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 480));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void rSButtonHover1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSButtonHover1ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_rSButtonHover1ActionPerformed
+
+    private void btnRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseClicked
+        // TODO add your handling code here:
+        btnRegister();
+        
+    }//GEN-LAST:event_btnRegisterMouseClicked
+
+    private void resetBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetBtnMouseClicked
+        // TODO add your handling code here:
+        txtUName.setText("");
+        txtPassword.setText("");
+        txtAddress.setText("");
+        txtConfirmPassword.setText("");
+        txtContactNo.setText("");
+        txtName.setText("");
+    }//GEN-LAST:event_resetBtnMouseClicked
+
+    private void signUpBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signUpBtnMouseClicked
+        // TODO add your handling code here:
+        AdminLogin R= new AdminLogin();
+        this.hide();
+        R.setVisible(true);
+    }//GEN-LAST:event_signUpBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -78,5 +299,26 @@ public class Registration extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private rojerusan.RSMaterialButtonRectangle btnRegister;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private rojerusan.RSButtonHover rSButtonHover1;
+    private rojerusan.RSLabelImage rSLabelImage2;
+    private rojerusan.RSMaterialButtonRectangle resetBtn;
+    private rojerusan.RSMaterialButtonRectangle signUpBtn;
+    private rojerusan.RSMetroTextPlaceHolder txtAddress;
+    private rojerusan.RSPasswordTextPlaceHolder txtConfirmPassword;
+    private rojerusan.RSMetroTextPlaceHolder txtContactNo;
+    private rojerusan.RSMetroTextPlaceHolder txtName;
+    private rojerusan.RSPasswordTextPlaceHolder txtPassword;
+    private rojerusan.RSMetroTextPlaceHolder txtUName;
     // End of variables declaration//GEN-END:variables
 }
