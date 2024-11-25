@@ -34,6 +34,7 @@ public class MemberLogin extends javax.swing.JFrame {
         rSButtonHover1 = new rojerusan.RSButtonHover();
         btnLogin = new rojerusan.RSMaterialButtonRectangle();
         resetBtn = new rojerusan.RSMaterialButtonRectangle();
+        back = new rojerusan.RSLabelImage();
         rSLabelImage1 = new rojerusan.RSLabelImage();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -115,6 +116,14 @@ public class MemberLogin extends javax.swing.JFrame {
         });
         jPanel2.add(resetBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 114, 38));
 
+        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/back.png"))); // NOI18N
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backMouseClicked(evt);
+            }
+        });
+        jPanel2.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 40, 30));
+
         rSLabelImage1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg/login21.jpg"))); // NOI18N
         jPanel2.add(rSLabelImage1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 340));
 
@@ -148,6 +157,13 @@ public class MemberLogin extends javax.swing.JFrame {
         txtUName.setText("");
         txtPass.setText("");
     }//GEN-LAST:event_resetBtnMouseClicked
+
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+        MainForm Ra= new MainForm();
+        this.hide();
+        Ra.setVisible(true);
+    }//GEN-LAST:event_backMouseClicked
 
     /**
      * @param args the command line arguments
@@ -185,6 +201,7 @@ public class MemberLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private rojerusan.RSLabelImage back;
     private rojerusan.RSMaterialButtonRectangle btnLogin;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

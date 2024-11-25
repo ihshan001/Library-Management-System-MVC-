@@ -720,24 +720,24 @@ public class AdminPage extends javax.swing.JFrame {
         txtTitle.setBorderColor(new java.awt.Color(89, 40, 237));
         txtTitle.setFont(new java.awt.Font("Source Sans 3 Light", 1, 14)); // NOI18N
         txtTitle.setPhColor(new java.awt.Color(89, 255, 255));
-        txtTitle.setPlaceholder("Enter a Genre");
-        panelBook.add(txtTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 230, 40));
+        txtTitle.setPlaceholder("Enter Title");
+        panelBook.add(txtTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, 230, 40));
 
         txtAuthor.setBackground(new java.awt.Color(0, 0, 81));
         txtAuthor.setForeground(new java.awt.Color(89, 255, 255));
         txtAuthor.setBorderColor(new java.awt.Color(89, 40, 237));
         txtAuthor.setFont(new java.awt.Font("Source Sans 3 Light", 1, 14)); // NOI18N
         txtAuthor.setPhColor(new java.awt.Color(89, 255, 255));
-        txtAuthor.setPlaceholder("Enter Book Title");
-        panelBook.add(txtAuthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 40, 230, 40));
+        txtAuthor.setPlaceholder("Enter Author");
+        panelBook.add(txtAuthor, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 230, 40));
 
         txtGenre.setBackground(new java.awt.Color(0, 0, 81));
         txtGenre.setForeground(new java.awt.Color(89, 255, 255));
         txtGenre.setBorderColor(new java.awt.Color(89, 40, 237));
         txtGenre.setFont(new java.awt.Font("Source Sans 3 Light", 1, 14)); // NOI18N
         txtGenre.setPhColor(new java.awt.Color(89, 255, 255));
-        txtGenre.setPlaceholder("Enter Author Name");
-        panelBook.add(txtGenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 230, 40));
+        txtGenre.setPlaceholder("Enter Genre");
+        panelBook.add(txtGenre, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 110, 230, 40));
 
         tblBook.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -854,6 +854,7 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void tblBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookMouseClicked
         // TODO add your handling code here:
+        bookMouse();
     }//GEN-LAST:event_tblBookMouseClicked
 
     private void btnResetBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetBookMouseClicked

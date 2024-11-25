@@ -263,6 +263,9 @@
                 </Component>
                 <Component class="necesario.RSMaterialButtonCircle" name="btnSearch">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ed" green="28" red="59" type="rgb"/>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Search"/>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Source Sans 3 ExtraBold" size="12" style="0"/>
@@ -273,7 +276,26 @@
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="420" y="110" width="60" height="50"/>
+                      <AbsoluteConstraints x="400" y="110" width="60" height="50"/>
+                    </Constraint>
+                  </Constraints>
+                </Component>
+                <Component class="necesario.RSMaterialButtonCircle" name="btnSearchReset">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="ed" green="28" red="59" type="rgb"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Reset"/>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Source Sans 3 ExtraBold" size="12" style="0"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSearchResetMouseClicked"/>
+                  </Events>
+                  <Constraints>
+                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+                      <AbsoluteConstraints x="470" y="110" width="60" height="50"/>
                     </Constraint>
                   </Constraints>
                 </Component>

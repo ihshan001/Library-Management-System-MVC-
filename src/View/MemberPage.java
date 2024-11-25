@@ -106,6 +106,7 @@ public class MemberPage extends javax.swing.JFrame {
         txtAuthorSearch = new rojerusan.RSMetroTextPlaceHolder();
         txtGenreSearch = new rojerusan.RSMetroTextPlaceHolder();
         btnSearch = new necesario.RSMaterialButtonCircle();
+        btnSearchReset = new necesario.RSMaterialButtonCircle();
         imgSearch = new rojerusan.RSLabelImage();
         rSPanelImage1 = new rojerusan.RSPanelImage();
         btnSearchPanel = new rojeru_san.complementos.RSButtonHover();
@@ -194,6 +195,7 @@ public class MemberPage extends javax.swing.JFrame {
         txtGenreSearch.setPlaceholder("Enter Genre");
         jPanel3.add(txtGenreSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 230, 40));
 
+        btnSearch.setBackground(new java.awt.Color(89, 40, 237));
         btnSearch.setText("Search");
         btnSearch.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 12)); // NOI18N
         btnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -201,7 +203,17 @@ public class MemberPage extends javax.swing.JFrame {
                 btnSearchMouseClicked(evt);
             }
         });
-        jPanel3.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 60, 50));
+        jPanel3.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 110, 60, 50));
+
+        btnSearchReset.setBackground(new java.awt.Color(89, 40, 237));
+        btnSearchReset.setText("Reset");
+        btnSearchReset.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 12)); // NOI18N
+        btnSearchReset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSearchResetMouseClicked(evt);
+            }
+        });
+        jPanel3.add(btnSearchReset, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 110, 60, 50));
 
         imgSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg/1000_F_171744995_u4KjXeKS61D3oxApKNHpJkKV81iA7dSs.jpg"))); // NOI18N
         jPanel3.add(imgSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -10, 850, 690));
@@ -288,6 +300,13 @@ public class MemberPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblBookSearchMouseClicked
 
+    private void btnSearchResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchResetMouseClicked
+        // TODO add your handling code here:
+        txtAuthorSearch.setText("");
+        txtGenreSearch.setText("");
+        txtTitleSearch.setText("");
+    }//GEN-LAST:event_btnSearchResetMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -327,6 +346,7 @@ public class MemberPage extends javax.swing.JFrame {
     private rojeru_san.complementos.RSButtonHover btnLogout;
     private necesario.RSMaterialButtonCircle btnSearch;
     private rojeru_san.complementos.RSButtonHover btnSearchPanel;
+    private necesario.RSMaterialButtonCircle btnSearchReset;
     private rojerusan.RSLabelImage imgSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

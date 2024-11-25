@@ -1014,11 +1014,11 @@
                     <Property name="phColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="59" type="rgb"/>
                     </Property>
-                    <Property name="placeholder" type="java.lang.String" value="Enter a Genre"/>
+                    <Property name="placeholder" type="java.lang.String" value="Enter Title"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="510" y="110" width="230" height="40"/>
+                      <AbsoluteConstraints x="510" y="40" width="230" height="40"/>
                     </Constraint>
                   </Constraints>
                 </Component>
@@ -1039,11 +1039,11 @@
                     <Property name="phColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="59" type="rgb"/>
                     </Property>
-                    <Property name="placeholder" type="java.lang.String" value="Enter Book Title"/>
+                    <Property name="placeholder" type="java.lang.String" value="Enter Author"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="510" y="40" width="230" height="40"/>
+                      <AbsoluteConstraints x="160" y="110" width="230" height="40"/>
                     </Constraint>
                   </Constraints>
                 </Component>
@@ -1064,11 +1064,11 @@
                     <Property name="phColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="59" type="rgb"/>
                     </Property>
-                    <Property name="placeholder" type="java.lang.String" value="Enter Author Name"/>
+                    <Property name="placeholder" type="java.lang.String" value="Enter Genre"/>
                   </Properties>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="160" y="110" width="230" height="40"/>
+                      <AbsoluteConstraints x="510" y="110" width="230" height="40"/>
                     </Constraint>
                   </Constraints>
                 </Component>
