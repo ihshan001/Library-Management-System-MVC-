@@ -26,6 +26,9 @@ public class Member {
     public void setMemberID(int memberID) {
         this.memberID = memberID;
     }
+    public void setMemberID() {
+        this.memberID = memberID;
+    }
 
     public String getName() {
         return name;

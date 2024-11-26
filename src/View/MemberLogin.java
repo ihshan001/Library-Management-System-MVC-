@@ -1,19 +1,18 @@
 
 package View;
 
-import controller.LoginController;
-import javax.swing.JOptionPane;
+
 
 import controller.LoginHandler;
 
 
 public class MemberLogin extends javax.swing.JFrame {
      private LoginHandler loginHandler;
-    private LoginController loginController;
+    
  
     public MemberLogin() {
         initComponents();
-        loginController = new LoginController();
+        
         loginHandler = new LoginHandler();
     }
 

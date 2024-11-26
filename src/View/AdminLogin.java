@@ -15,7 +15,7 @@ public class AdminLogin extends javax.swing.JFrame {
     public AdminLogin() {
         initComponents();
         
-        loginController = new LoginController();
+        
         loginHandler = new LoginHandler();
          
     }

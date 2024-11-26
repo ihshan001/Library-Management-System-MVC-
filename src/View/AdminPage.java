@@ -35,6 +35,11 @@ public class AdminPage extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error initializing database connection: " + e.getMessage());
         }
+        
+        
+    }
+    public void setWelcomeMessage(String message) {
+        lblAdminShow.setText(message);
     }
 
     // Method to load all members into the table
@@ -306,9 +311,9 @@ public class AdminPage extends javax.swing.JFrame {
         btnAdminRegister = new rojeru_san.complementos.RSButtonHover();
         btnLogout = new rojeru_san.complementos.RSButtonHover();
         btnExit = new rojeru_san.complementos.RSButtonHover();
+        lblAdminShow = new javax.swing.JLabel();
         panelTab = new javax.swing.JTabbedPane();
         panelMember = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         lblMemberName = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         lblcardNo = new javax.swing.JLabel();
@@ -330,6 +335,7 @@ public class AdminPage extends javax.swing.JFrame {
         lblcardNo2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblMember = new rojeru_san.complementos.RSTableMetro();
+        jLabel2 = new javax.swing.JLabel();
         backGroundImage = new rojerusan.RSLabelImage();
         panelBook = new javax.swing.JPanel();
         lblBookID = new javax.swing.JLabel();
@@ -424,30 +430,30 @@ public class AdminPage extends javax.swing.JFrame {
         });
         jPanel2.add(btnExit);
 
+        lblAdminShow.setBackground(new java.awt.Color(0, 0, 0));
+        lblAdminShow.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 13)); // NOI18N
+        lblAdminShow.setForeground(new java.awt.Color(0, 191, 125));
+
         javax.swing.GroupLayout imgPanelLayout = new javax.swing.GroupLayout(imgPanel);
         imgPanel.setLayout(imgPanelLayout);
         imgPanelLayout.setHorizontalGroup(
             imgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(imgPanelLayout.createSequentialGroup()
-                .addGap(170, 170, 170)
+                .addComponent(lblAdminShow, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(1, 1, 1)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         imgPanelLayout.setVerticalGroup(
-            imgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            imgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(lblAdminShow, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jPanel1.add(imgPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, -1));
 
         panelMember.setBackground(new java.awt.Color(37, 70, 240));
         panelMember.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 15)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 191, 125));
-        jLabel1.setText("MemberID");
-        panelMember.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 80, 31));
 
         lblMemberName.setBackground(new java.awt.Color(255, 255, 255));
         lblMemberName.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 15)); // NOI18N
@@ -624,6 +630,12 @@ public class AdminPage extends javax.swing.JFrame {
         }
 
         panelMember.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 830, 190));
+
+        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel2.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 15)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 191, 125));
+        jLabel2.setText("MemberID");
+        panelMember.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 80, 31));
 
         backGroundImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg/abstract-blue-dark-gradient-wallpaper-preview.jpg"))); // NOI18N
         panelMember.add(backGroundImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -70, 890, 630));
@@ -925,13 +937,14 @@ public class AdminPage extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser expiryDateField;
     private rojerusan.RSLabelImage imgBackBook;
     private rojerusan.RSPanelImage imgPanel;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblAddress;
+    private javax.swing.JLabel lblAdminShow;
     private javax.swing.JLabel lblAuthor;
     private javax.swing.JLabel lblBookID;
     private javax.swing.JLabel lblExpiryDate;

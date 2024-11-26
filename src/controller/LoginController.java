@@ -1,13 +1,15 @@
 package controller;
 
+import Model.AdminModel;
 import Model.DatabaseConnection;
+import Model.Member;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
 public class LoginController {
 
-    // Method to authenticate admin login
-    public boolean authenticateAdmin(String username, String password) {
+    // Authenticate admin login and return Admin details
+    public AdminModel authenticateAdmin(String username, String password) {
         try (Connection connection = DatabaseConnection.getConnection()) {
             String query = "SELECT * FROM admin WHERE username = ? AND password = ?";
             PreparedStatement ps = connection.prepareStatement(query);
@@ -16,18 +18,19 @@ public class LoginController {
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return true;  // Admin found with matching username and password
-            } else {
-                return false;  // Invalid login credentials
+                AdminModel admin = new AdminModel();
+                admin.setName(rs.getString("name"));
+                admin.setAdminID(rs.getInt("adminID"));
+                return admin;  // Return the Admin details
             }
         } catch (SQLException e) {
             handleSQLException(e);
-            return false;
         }
+        return null;  // Return null if no match found
     }
 
-    // Method to authenticate member login
-    public boolean authenticateMember(String username, String password) {
+    // Authenticate member login and return Member details
+    public Member authenticateMember(String username, String password) {
         try (Connection connection = DatabaseConnection.getConnection()) {
             String query = "SELECT * FROM members WHERE name = ? AND password = ?";
             PreparedStatement ps = connection.prepareStatement(query);
@@ -36,17 +39,22 @@ public class LoginController {
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return true;  // Member found with matching username and password
-            } else {
-                return false;  // Invalid login credentials
+                return new Member(
+                    rs.getInt("memberID"),
+                    rs.getString("name"),
+                    rs.getString("contactNo"),
+                    rs.getString("address"),
+                    rs.getString("password"),
+                    null // MembershipCard is not fetched here
+                );
             }
         } catch (SQLException e) {
             handleSQLException(e);
-            return false;
         }
+        return null;  // Return null if no match found
     }
 
-    // Utility method to handle SQLExceptions
+    // Utility method to handle SQLExceptions (unchanged)
     private void handleSQLException(SQLException e) {
         JOptionPane.showMessageDialog(null, "Database connection error: " + e.getMessage(),
                                       "Error", JOptionPane.ERROR_MESSAGE);

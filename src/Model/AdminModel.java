@@ -2,7 +2,7 @@ package Model;
 
 public class AdminModel {
 
-
+    private int AdminID;
     private String name;
     private String username;
     private String address;
@@ -10,7 +10,15 @@ public class AdminModel {
     private String password;
     private String confirmPassword;
 
-    // Getter and Setter for Name
+    public int getAdminID() {
+        return AdminID;
+    }
+
+    public void setAdminID(int ID) {
+        this.AdminID = ID;
+    }
+
+   
     public String getName() {
         return name;
     }
@@ -18,7 +26,7 @@ public class AdminModel {
         this.name = name;
     }
 
-    // Getter and Setter for Username
+   
     public String getUsername() {
         return username;
     }
@@ -26,7 +34,7 @@ public class AdminModel {
         this.username = username;
     }
 
-    // Getter and Setter for Address
+   
     public String getAddress() {
         return address;
     }
@@ -34,7 +42,7 @@ public class AdminModel {
         this.address = address;
     }
 
-    // Getter and Setter for Contact Number
+   
     public String getContactNo() {
         return contactNo;
     }
@@ -42,7 +50,7 @@ public class AdminModel {
         this.contactNo = contactNo;
     }
 
-    // Getter and Setter for Password
+    
     public String getPassword() {
         return password;
     }
