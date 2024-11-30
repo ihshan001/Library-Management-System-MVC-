@@ -2,95 +2,189 @@ package controller;
 
 import Model.Member;
 import Model.MembershipCard;
+import com.toedter.calendar.JDateChooser;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import rojeru_san.complementos.RSTableMetro;
+import rojerusan.RSMetroTextPlaceHolder;
+import rojerusan.RSPasswordTextPlaceHolder;
 
 public class MemberController {
     private Connection connection;
+    private RSMetroTextPlaceHolder txtMemberID, txtMemberName, txtContactNo, txtAddress, txtCardNumber;
+    private RSPasswordTextPlaceHolder txtPassword, txtConfirmPassword;
+    private RSTableMetro tblMember;
+    private JDateChooser expiryDateField;
 
-    public MemberController(Connection connection) {
+     // Constructor
+    public MemberController(Connection connection, RSMetroTextPlaceHolder txtMemberID, RSMetroTextPlaceHolder txtMemberName, 
+                            RSMetroTextPlaceHolder txtContactNo, RSMetroTextPlaceHolder txtAddress, 
+                            RSPasswordTextPlaceHolder txtPassword, RSPasswordTextPlaceHolder txtConfirmPassword, 
+                            RSMetroTextPlaceHolder txtCardNumber, RSTableMetro tblMember, JDateChooser expiryDateField) {
         this.connection = connection;
+        this.txtMemberID = txtMemberID;
+        this.txtMemberName = txtMemberName;
+        this.txtContactNo = txtContactNo;
+        this.txtAddress = txtAddress;
+        this.txtPassword = txtPassword;
+        this.txtConfirmPassword = txtConfirmPassword;
+        this.txtCardNumber = txtCardNumber;
+        this.tblMember = tblMember;
+        this.expiryDateField = expiryDateField;
     }
 
-    public void addMember(Member member) throws Exception {
-        if (member.getName().isEmpty() || member.getContactNo().isEmpty() || member.getAddress().isEmpty() || member.getPassword().isEmpty()) {
-            throw new Exception("All fields must be filled!");
-        }
+    // Add or Update Member
+    public void saveMember() {
+        try {
+            String name = txtMemberName.getText();
+            String contactNo = txtContactNo.getText();
+            String address = txtAddress.getText();
+            String password = new String(txtPassword.getPassword());
+            String confirmPassword = new String(txtConfirmPassword.getPassword());
+            String cardNumber = txtCardNumber.getText();
+            Date expiryDate = expiryDateField.getDate();
 
-        String sql = "INSERT INTO members (name, contactNo, address, password, cardNumber, expiryDate) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, member.getName());
-            statement.setString(2, member.getContactNo());
-            statement.setString(3, member.getAddress());
-            statement.setString(4, member.getPassword());
-            statement.setString(5, member.getMembershipCard().getCardNumber());
+            if (isValidInput(name, contactNo, address, password, confirmPassword, cardNumber, expiryDate)) {
+                if (validatePassword(password, confirmPassword)) {
+                    Member member = new Member(
+                        txtMemberID.getText().isEmpty() ? 0 : Integer.parseInt(txtMemberID.getText()), 
+                        name, contactNo, address, password, 
+                        new MembershipCard(cardNumber, expiryDate)
+                    );
 
-            // Handle expiryDate (convert to java.sql.Date)
-            java.util.Date expiryDate = member.getMembershipCard().getExpiryDate();
-            if (expiryDate != null) {
-                statement.setDate(6, new java.sql.Date(expiryDate.getTime()));
-            } else {
-                statement.setNull(6, java.sql.Types.DATE);  // Handle null expiry date
+                    String sql;
+                    if (member.getMemberID() == 0) {
+                        sql = "INSERT INTO members (name, contactNo, address, password, cardNumber, expiryDate) VALUES (?, ?, ?, ?, ?, ?)";
+                    } else {
+                        sql = "UPDATE members SET name=?, contactNo=?, address=?, password=?, cardNumber=?, expiryDate=? WHERE memberID=?";
+                    }
+
+                    try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                        statement.setString(1, member.getName());
+                        statement.setString(2, member.getContactNo());
+                        statement.setString(3, member.getAddress());
+                        statement.setString(4, member.getPassword());
+                        statement.setString(5, member.getMembershipCard().getCardNumber());
+                        statement.setDate(6, new java.sql.Date(member.getMembershipCard().getExpiryDate().getTime()));
+                        
+                        if (member.getMemberID() != 0) {
+                            statement.setInt(7, member.getMemberID());
+                        }
+
+                        statement.executeUpdate();
+                    }
+
+                    JOptionPane.showMessageDialog(null, member.getMemberID() == 0 ? "Member added successfully!" : "Member updated successfully!");
+                    loadMember();
+                    clearFields();
+                }
             }
-
-            statement.executeUpdate();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error saving member: " + e.getMessage());
+            e.printStackTrace(); // Log the error for debugging
         }
     }
 
-    public void updateMember(Member member) throws Exception {
-        if (member.getMemberID() == 0) {
-            throw new Exception("No member selected for update!");
-        }
+    // Delete Member
+    public void deleteMember() {
+        try {
+            int selectedRow = tblMember.getSelectedRow();
+            if (selectedRow < 0) throw new Exception("No member selected!");
 
-        String sql = "UPDATE members SET name=?, contactNo=?, address=?, password=?, cardNumber=?, expiryDate=? WHERE memberID=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, member.getName());
-            statement.setString(2, member.getContactNo());
-            statement.setString(3, member.getAddress());
-            statement.setString(4, member.getPassword());
-            statement.setString(5, member.getMembershipCard().getCardNumber());
-
-            // Handle expiryDate (convert to java.sql.Date)
-            java.util.Date expiryDate = member.getMembershipCard().getExpiryDate();
-            if (expiryDate != null) {
-                statement.setDate(6, new java.sql.Date(expiryDate.getTime()));
-            } else {
-                statement.setNull(6, java.sql.Types.DATE);  // Handle null expiry date
+            int memberID = Integer.parseInt(tblMember.getValueAt(selectedRow, 0).toString());
+            String sql = "DELETE FROM members WHERE memberID=?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, memberID);
+                statement.executeUpdate();
             }
-
-            statement.setInt(7, member.getMemberID());
-            statement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Member deleted successfully!");
+            loadMember();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error deleting member: " + e.getMessage());
         }
     }
 
-    public void deleteMember(int memberID) throws Exception {
-        if (memberID == 0) {
-            throw new Exception("No member selected for deletion!");
-        }
-
-        String sql = "DELETE FROM members WHERE memberID=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, memberID);
-            statement.executeUpdate();
-        }
-    }
-
-    public List<Member> getAllMembers() throws SQLException {
-        List<Member> members = new ArrayList<>();
-        String sql = "SELECT * FROM members";
-        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
-            while (resultSet.next()) {
-                Member member = new Member();
-                member.setMemberID(resultSet.getInt("memberID"));
-                member.setName(resultSet.getString("name"));
-                member.setContactNo(resultSet.getString("contactNo"));
-                member.setAddress(resultSet.getString("address"));
-                member.setPassword(resultSet.getString("password"));
-                member.setMembershipCard(new MembershipCard(resultSet.getString("cardNumber"), resultSet.getDate("expiryDate")));
-                members.add(member);
+    // Load Member data into the table
+    public void loadMember() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) tblMember.getModel();
+            model.setRowCount(0); // Clear existing rows
+            String sql = "SELECT * FROM members";
+            try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
+                while (resultSet.next()) {
+                    model.addRow(new Object[]{
+                        resultSet.getInt("memberID"),
+                        resultSet.getString("name"),
+                        resultSet.getString("contactNo"),
+                        resultSet.getString("address"),
+                        resultSet.getString("cardNumber"),
+                        resultSet.getDate("expiryDate"),
+                        resultSet.getString("password")
+                    });
+                }
             }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error loading members: " + e.getMessage());
         }
-        return members;
+    }
+
+    // Validate password fields
+    private boolean validatePassword(String password, String confirmPassword) {
+        if (!password.equals(confirmPassword)) {
+            JOptionPane.showMessageDialog(null, "Passwords do not match!");
+            return false;
+        
+        
+        }
+        return true;
+    }
+
+    // Validate all fields before submitting
+    private boolean isValidInput(String name, String contactNo, String address, String password, String confirmPassword, String cardNumber, Date expiryDate) {
+        if (name.isEmpty() || contactNo.isEmpty() || address.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || cardNumber.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill in all the fields.");
+            return false;
+        }
+        if (expiryDate == null) {
+            JOptionPane.showMessageDialog(null, "Please select an expiry date.");
+            return false;
+        }
+        return true;
+    }
+
+    // Clear all fields
+    public void clearFields() {
+        txtMemberID.setText("");
+        txtMemberName.setText("");
+        txtContactNo.setText("");
+        txtAddress.setText("");
+        txtPassword.setText("");
+        txtCardNumber.setText("");
+        txtConfirmPassword.setText("");
+        expiryDateField.setDate(null);
+    }
+
+    // Load selected member's data into the fields when clicked
+    public void tblMember() {
+        int selectedRow = tblMember.getSelectedRow();
+        if (selectedRow >= 0) {
+            // Get the data from the selected row
+            String memberID = tblMember.getValueAt(selectedRow, 0).toString();
+            String name = tblMember.getValueAt(selectedRow, 1).toString();
+            String contactNo = tblMember.getValueAt(selectedRow, 2).toString();
+            String address = tblMember.getValueAt(selectedRow, 3).toString();
+            String cardNumber = tblMember.getValueAt(selectedRow, 4).toString();
+            Date expiryDate = (Date) tblMember.getValueAt(selectedRow, 5);
+
+            // Set the data into the form fields
+            txtMemberID.setText(memberID);
+            txtMemberName.setText(name);
+            txtContactNo.setText(contactNo);
+            txtAddress.setText(address);
+            txtCardNumber.setText(cardNumber);
+            expiryDateField.setDate(expiryDate);
+        }
     }
 }

@@ -1,140 +1,242 @@
 package controller;
 
 import Model.Book;
+import com.toedter.calendar.JDateChooser;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.sql.Date;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import rojeru_san.complementos.RSTableMetro;
+import rojerusan.RSMetroTextPlaceHolder;
 
 public class BookController {
 
     private Connection connection;
+    private RSMetroTextPlaceHolder txtTitle, txtAuthor, txtGenre, txtTitleSearch, txtAuthorSearch, txtGenreSearch;
+    private RSTableMetro tblBook;
+    private JDateChooser yearPublished;
 
-    public BookController(Connection connection) {
+    //Consatructor for SearchBook
+    public BookController(Connection connection, RSMetroTextPlaceHolder txtTitleSearch,
+            RSMetroTextPlaceHolder txtAuthorSearch, RSMetroTextPlaceHolder txtGenreSearch,RSTableMetro tblBook) {
         this.connection = connection;
+        this.txtTitleSearch = txtTitleSearch;
+        this.txtAuthorSearch = txtAuthorSearch;
+        this.txtGenreSearch = txtGenreSearch;
+        this.tblBook = tblBook;
     }
 
-    public void addBook(Book book) throws Exception {
-        if (book.getTitle().isEmpty() || book.getAuthor().isEmpty() || book.getGenre().isEmpty()) {
-            throw new Exception("All fields must be filled!");
-        }
-
-        String sql = "INSERT INTO books (title, author, genre, yearPublished) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, book.getTitle());
-            statement.setString(2, book.getAuthor());
-            statement.setString(3, book.getGenre());
-
-            // Convert java.util.Date to java.sql.Date
-            if (book.getPublishedYear() != null) {
-                statement.setDate(4, new java.sql.Date(book.getPublishedYear().getTime())); // convert to sql.Date
-            } else {
-                statement.setNull(4, java.sql.Types.DATE); // Handle if the date is null
-            }
-
-            statement.executeUpdate();
-        }
+    // Constructor for initializing components
+    public BookController(Connection connection, RSMetroTextPlaceHolder txtTitle, RSMetroTextPlaceHolder txtAuthor, 
+            RSMetroTextPlaceHolder txtGenre, RSTableMetro tblBook, JDateChooser yearPublished) {
+        this.connection = connection;
+        this.txtTitle = txtTitle;
+        this.txtAuthor = txtAuthor;
+        this.txtGenre = txtGenre;
+        this.tblBook = tblBook;
+        this.yearPublished = yearPublished;
     }
 
-    public void updateBook(Book book) throws Exception {
-        if (book.getBookID() == 0) {
-            throw new Exception("No book selected for update!");
-        }
+    // Load all books into the table
+    public void loadBook() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) tblBook.getModel();
+            model.setRowCount(0); // Clear existing rows
 
-        String sql = "UPDATE books SET title=?, author=?, genre=?, yearPublished=? WHERE bookID=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, book.getTitle());
-            statement.setString(2, book.getAuthor());
-            statement.setString(3, book.getGenre());
-
-            // Convert java.util.Date to java.sql.Date for publishedYear
-            if (book.getPublishedYear() != null) {
-                statement.setDate(4, new java.sql.Date(book.getPublishedYear().getTime())); // Convert to sql.Date
-            } else {
-                statement.setNull(4, java.sql.Types.DATE); // Handle null value
-            }
-
-            statement.setInt(5, book.getBookID());
-            statement.executeUpdate();
-        }
-    }
-
-    public void deleteBook(int bookID) throws Exception {
-        if (bookID == 0) {
-            throw new Exception("No book selected for deletion!");
-        }
-
-        String sql = "DELETE FROM books WHERE bookID=?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, bookID);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new SQLException("Error deleting book: " + e.getMessage());
-        }
-    }
-
-    public List<Book> getAllBooks() throws SQLException {
-        List<Book> books = new ArrayList<>();
-        String sql = "SELECT * FROM books";
-        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
-            while (resultSet.next()) {
-                Book book = new Book();
-                book.setBookID(resultSet.getInt("bookID"));
-                book.setTitle(resultSet.getString("title"));
-                book.setAuthor(resultSet.getString("author"));
-                book.setGenre(resultSet.getString("genre"));
-
-                // Convert java.sql.Date back to java.util.Date
-                java.sql.Date sqlDate = resultSet.getDate("yearPublished");
-                if (sqlDate != null) {
-                    book.setPublishedYear(new java.util.Date(sqlDate.getTime()));
+            String sql = "SELECT * FROM books";
+            try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
+                while (resultSet.next()) {
+                    model.addRow(new Object[]{
+                        resultSet.getInt("bookID"),
+                        resultSet.getString("title"),
+                        resultSet.getString("author"),
+                        resultSet.getString("genre"),
+                        resultSet.getDate("yearPublished")
+                    });
                 }
-
-                books.add(book);
             }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error loading books: " + e.getMessage());
         }
-        return books;
     }
-    
-     // Method to search books based on title, author, and genre
-    public List<Book> searchBooks(String title, String author, String genre) throws SQLException {
-        List<Book> books = new ArrayList<>();
-        StringBuilder sql = new StringBuilder("SELECT * FROM books WHERE 1=1");
 
-        if (!title.isEmpty()) {
-            sql.append(" AND title LIKE ?");
+    // Add a new book
+    public void addBook() {
+        try {
+            String title = txtTitle.getText();
+            String author = txtAuthor.getText();
+            String genre = txtGenre.getText();
+            Date publishedYear = yearPublished.getDate();
+
+            if (title.isEmpty() || author.isEmpty() || genre.isEmpty() || publishedYear == null) {
+                JOptionPane.showMessageDialog(null, "All fields must be filled!");
+                return;
+            }
+
+            String sql = "INSERT INTO books (title, author, genre, yearPublished) VALUES (?, ?, ?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, title);
+                statement.setString(2, author);
+                statement.setString(3, genre);
+                statement.setDate(4, new java.sql.Date(publishedYear.getTime()));
+
+                statement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Book added successfully!");
+                loadBook();
+                clearBookFields();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error adding book: " + e.getMessage());
         }
-        if (!author.isEmpty()) {
-            sql.append(" AND author LIKE ?");
+    }
+
+    // Update a selected book
+    public void updateBook() {
+        try {
+            int selectedRow = tblBook.getSelectedRow();
+            if (selectedRow < 0) {
+                JOptionPane.showMessageDialog(null, "No book selected for update!");
+                return;
+            }
+
+            int bookID = Integer.parseInt(tblBook.getValueAt(selectedRow, 0).toString());
+            String title = txtTitle.getText();
+            String author = txtAuthor.getText();
+            String genre = txtGenre.getText();
+            Date publishedYear = yearPublished.getDate();
+
+            if (title.isEmpty() || author.isEmpty() || genre.isEmpty() || publishedYear == null) {
+                JOptionPane.showMessageDialog(null, "All fields must be filled!");
+                return;
+            }
+
+            String sql = "UPDATE books SET title=?, author=?, genre=?, yearPublished=? WHERE bookID=?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, title);
+                statement.setString(2, author);
+                statement.setString(3, genre);
+                statement.setDate(4, new java.sql.Date(publishedYear.getTime()));
+                statement.setInt(5, bookID);
+
+                statement.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Book updated successfully!");
+                loadBook();
+                clearBookFields();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error updating book: " + e.getMessage());
         }
-        if (!genre.isEmpty()) {
-            sql.append(" AND genre LIKE ?");
+    }
+
+    // Delete a selected book
+    public void deleteBook() {
+        try {
+            int selectedRow = tblBook.getSelectedRow();
+            if (selectedRow < 0) {
+                JOptionPane.showMessageDialog(null, "No book selected for deletion!");
+                return;
+            }
+
+            int bookID = Integer.parseInt(tblBook.getValueAt(selectedRow, 0).toString());
+            String sql = "DELETE FROM books WHERE bookID=?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, bookID);
+                statement.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Book deleted successfully!");
+                loadBook();
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error deleting book: " + e.getMessage());
+        }
+    }
+
+    // Clear the input fields
+    public void clearBookFields() {
+        txtTitle.setText("");
+        txtAuthor.setText("");
+        txtGenre.setText("");
+        yearPublished.setDate(null);
+    }
+
+    // Handle table row selection
+    public void tblBook() {
+        try {
+            int selectedRow = tblBook.getSelectedRow();
+            if (selectedRow < 0) {
+                return;
+            }
+
+            txtTitle.setText(tblBook.getValueAt(selectedRow, 1).toString());
+            txtAuthor.setText(tblBook.getValueAt(selectedRow, 2).toString());
+            txtGenre.setText(tblBook.getValueAt(selectedRow, 3).toString());
+            yearPublished.setDate((Date) tblBook.getValueAt(selectedRow, 4));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error selecting book: " + e.getMessage());
+        }
+    }
+
+    // Method to search books by title, author, or genre
+    public void searchBook() {
+        String title = txtTitleSearch.getText().trim();
+        String author = txtAuthorSearch.getText().trim();
+        String genre = txtGenreSearch.getText().trim();
+
+        // Validate search inputs
+        if (title.isEmpty() && author.isEmpty() && genre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter at least one search criteria!");
+            return;
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(sql.toString())) {
-            int index = 1;
+        try {
+            DefaultTableModel model = (DefaultTableModel) tblBook.getModel();
+            model.setRowCount(0); // Clear existing rows
+
+            StringBuilder sql = new StringBuilder("SELECT * FROM books WHERE 1=1");
             if (!title.isEmpty()) {
-                statement.setString(index++, "%" + title + "%");
+                sql.append(" AND title LIKE ?");
             }
             if (!author.isEmpty()) {
-                statement.setString(index++, "%" + author + "%");
+                sql.append(" AND author LIKE ?");
             }
             if (!genre.isEmpty()) {
-                statement.setString(index++, "%" + genre + "%");
+                sql.append(" AND genre LIKE ?");
             }
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Book book = new Book();
-                    book.setBookID(resultSet.getInt("bookID"));
-                    book.setTitle(resultSet.getString("title"));
-                    book.setAuthor(resultSet.getString("author"));
-                    book.setGenre(resultSet.getString("genre"));
-                    book.setPublishedYear(resultSet.getDate("yearPublished"));
-                    books.add(book);
+            try (PreparedStatement statement = connection.prepareStatement(sql.toString())) {
+                int index = 1;
+                if (!title.isEmpty()) {
+                    statement.setString(index++, "%" + title + "%");
+                }
+                if (!author.isEmpty()) {
+                    statement.setString(index++, "%" + author + "%");
+                }
+                if (!genre.isEmpty()) {
+                    statement.setString(index++, "%" + genre + "%");
+                }
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        model.addRow(new Object[]{
+                            resultSet.getInt("bookID"),
+                            resultSet.getString("title"),
+                            resultSet.getString("author"),
+                            resultSet.getString("genre"),
+                            resultSet.getDate("yearPublished")
+                        });
+                    }
                 }
             }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error searching books: " + e.getMessage());
         }
-        return books;
     }
+
+    // Method to reset search filters
+    public void resetSearch() {
+        txtTitleSearch.setText("");
+        txtAuthorSearch.setText("");
+        txtGenreSearch.setText("");
+    }
+
 }

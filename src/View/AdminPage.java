@@ -1,19 +1,12 @@
 package View;
 
-import controller.MemberController;
 import controller.BookController;
-import Model.Member;
-import Model.Book;
-import Model.DatabaseConnection;
-import Model.MembershipCard;
 import java.sql.Connection;
-import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import java.util.Date;
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import controller.MemberController;
+import Model.DatabaseConnection;
+
 
 public class AdminPage extends javax.swing.JFrame {
 
@@ -26,12 +19,20 @@ public class AdminPage extends javax.swing.JFrame {
         try {
             // Initialize controllers with the shared connection
             Connection connection = DatabaseConnection.getConnection();
-            this.memberController = new MemberController(connection);
-            this.bookController = new BookController(connection);
+             memberController = new MemberController(connection, txtMemberID, txtMemberName, 
+                                                     txtContactNo, txtAddress, txtPassword, 
+                                                     txtConfirmPassword, txtCardNumber, 
+                                                     tblMember, expiryDateField);
 
-            // Load the member table on initialization
-            loadMemberTable();
-            loadBookTable();
+            
+            memberController.loadMember();
+            
+            
+            bookController=new BookController(connection, txtTitle, txtAuthor, txtGenre, tblBook, yearPublished);
+            
+            bookController.loadBook();
+            
+            
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error initializing database connection: " + e.getMessage());
         }
@@ -42,262 +43,8 @@ public class AdminPage extends javax.swing.JFrame {
         lblAdminShow.setText(message);
     }
 
-    // Method to load all members into the table
-    private void loadMemberTable() {
-        try {
-            DefaultTableModel model = (DefaultTableModel) tblMember.getModel();
-            model.setRowCount(0); // Clear existing rows
-            List<Member> members = memberController.getAllMembers();
-            for (Member member : members) {
-                model.addRow(new Object[]{
-                    member.getMemberID(),
-                    member.getName(),
-                    member.getContactNo(),
-                    member.getAddress(),
-                    member.getMembershipCard().getCardNumber(),
-                    member.getMembershipCard().getExpiryDate(), // Add expiryDate
-                    member.getPassword() // Add password
-                });
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading members: " + e.getMessage());
-        }
-    }
-// Method to load all books into the table
+   
 
-    private void loadBookTable() {
-        try {
-            DefaultTableModel model = (DefaultTableModel) tblBook.getModel();
-            model.setRowCount(0); // Clear existing rows
-            List<Book> books = bookController.getAllBooks();
-            for (Book book : books) {
-                model.addRow(new Object[]{book.getBookID(), book.getTitle(), book.getAuthor(), book.getGenre(), book.getPublishedYear()});
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading books: " + e.getMessage());
-        }
-    }
-
-    private void addMember() {
-        try {
-            String name = txtMemberName.getText();
-            String contactNo = txtContactNo.getText();
-            String address = txtAddress.getText();
-            String password = new String(txtPassword.getPassword());
-            String confirmPassword = new String(txtConfirmPassword.getPassword());
-            String cardNumber = txtCardNumber.getText();
-            java.util.Date expiryDate = expiryDateField.getDate();  // Use java.util.Date for expiryDate
-
-            if (validatePassword(password, confirmPassword)) {
-                // Ensure the expiryDate is not null before passing it
-                if (expiryDate != null) {
-                    Member member = new Member(0, name, contactNo, address, password, new MembershipCard(cardNumber, expiryDate));
-                    memberController.addMember(member);
-                    JOptionPane.showMessageDialog(this, "Member added successfully!");
-                    loadMemberTable();
-                    resetFields();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Please select an expiry date!");
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error adding member: " + e.getMessage());
-        }
-    }
-
-// Update Member Button
-    private void updateMember() {
-        try {
-            int selectedRow = tblMember.getSelectedRow();
-            if (selectedRow < 0) {
-                throw new Exception("No member selected!");
-            }
-
-            int memberID = Integer.parseInt(tblMember.getValueAt(selectedRow, 0).toString());
-            String name = txtMemberName.getText();
-            String contactNo = txtContactNo.getText();
-            String address = txtAddress.getText();
-            String password = new String(txtPassword.getPassword());
-            String confirmPassword = new String(txtConfirmPassword.getPassword());
-            String cardNumber = txtCardNumber.getText();
-            java.util.Date expiryDate = expiryDateField.getDate();  // Use java.util.Date for expiryDate
-
-            if (validatePassword(password, confirmPassword)) {
-                // Ensure the expiryDate is not null before passing it
-                if (expiryDate != null) {
-                    Member member = new Member(memberID, name, contactNo, address, password, new MembershipCard(cardNumber, expiryDate));
-                    memberController.updateMember(member);
-                    JOptionPane.showMessageDialog(this, "Member updated successfully!");
-                    loadMemberTable();
-                    resetFields();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Please select an expiry date!");
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error updating member: " + e.getMessage());
-        }
-    }
-
-    private void memberMouse() {
-        int selectedRow = tblMember.getSelectedRow();
-        if (selectedRow >= 0) {
-            // Get member ID
-            int memberID = Integer.parseInt(tblMember.getValueAt(selectedRow, 0).toString());
-
-            // Populate text fields with the selected member's details
-            txtMemberID.setText(tblMember.getValueAt(selectedRow, 0).toString());
-            txtMemberName.setText(tblMember.getValueAt(selectedRow, 1).toString());
-            txtContactNo.setText(tblMember.getValueAt(selectedRow, 2).toString());
-            txtAddress.setText(tblMember.getValueAt(selectedRow, 3).toString());
-            txtCardNumber.setText(tblMember.getValueAt(selectedRow, 4).toString());
-
-            // Get expiry date and set it in the date picker
-            String expiryDateStr = tblMember.getValueAt(selectedRow, 5).toString();
-            try {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date expiryDate = dateFormat.parse(expiryDateStr);
-                expiryDateField.setDate(expiryDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            // Set password (if needed)
-            txtPassword.setText(tblMember.getValueAt(selectedRow, 6).toString());
-        }
-    }
-
-// Delete Member Button
-    private void deleteMember() {
-        try {
-            int selectedRow = tblMember.getSelectedRow();
-            if (selectedRow < 0) {
-                throw new Exception("No member selected!");
-            }
-
-            int memberID = Integer.parseInt(tblMember.getValueAt(selectedRow, 0).toString());
-            memberController.deleteMember(memberID);
-            JOptionPane.showMessageDialog(this, "Member deleted successfully!");
-            loadMemberTable();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error deleting member: " + e.getMessage());
-        }
-    }
-
-// Method to validate password fields
-    private boolean validatePassword(String password, String confirmPassword) {
-        if (!password.equals(confirmPassword)) {
-            JOptionPane.showMessageDialog(this, "Passwords do not match!");
-            return false;
-        }
-        return true;
-    }
-
-    // Method to reset all input fields
-    private void resetFields() {
-        txtMemberID.setText("");
-        txtMemberName.setText("");
-        txtContactNo.setText("");
-        txtAddress.setText("");
-        txtPassword.setText("");
-        txtCardNumber.setText("");
-        txtConfirmPassword.setText("");
-        expiryDateField.setDate(null);
-    }
-
-    // Add Book Button
-    private void addBook() {
-        try {
-            String title = txtTitle.getText();
-            String author = txtAuthor.getText();
-            String genre = txtGenre.getText();
-            Date publishedYear = yearPublished.getDate();
-
-            if (title.isEmpty() || author.isEmpty() || genre.isEmpty() || publishedYear == null) {
-                JOptionPane.showMessageDialog(this, "All fields must be filled!");
-                return;
-            }
-
-            Book book = new Book(0, title, author, genre, publishedYear);
-            bookController.addBook(book);
-            JOptionPane.showMessageDialog(this, "Book added successfully!");
-            loadBookTable();
-            resetFields();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error adding book: " + e.getMessage());
-        }
-    }
-
-    // Update Book Button
-    private void updateBook() {
-        try {
-            int selectedRow = tblBook.getSelectedRow();
-            if (selectedRow < 0) {
-                throw new Exception("No book selected!");
-            }
-
-            int bookID = Integer.parseInt(tblBook.getValueAt(selectedRow, 0).toString());
-            String title = txtTitle.getText();
-            String author = txtAuthor.getText();
-            String genre = txtGenre.getText();
-            Date publishedYear = yearPublished.getDate();
-
-            if (title.isEmpty() || author.isEmpty() || genre.isEmpty() || publishedYear == null) {
-                JOptionPane.showMessageDialog(this, "All fields must be filled!");
-                return;
-            }
-
-            Book book = new Book(bookID, title, author, genre, publishedYear);
-            bookController.updateBook(book);
-            JOptionPane.showMessageDialog(this, "Book updated successfully!");
-            loadBookTable();
-            resetFields();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error updating book: " + e.getMessage());
-        }
-    }
-
-    // Delete Book Button
-    private void deleteBook() {
-        try {
-            int selectedRow = tblBook.getSelectedRow();
-            if (selectedRow < 0) {
-                throw new Exception("No book selected!");
-            }
-
-            int bookID = Integer.parseInt(tblBook.getValueAt(selectedRow, 0).toString());
-            bookController.deleteBook(bookID);
-            JOptionPane.showMessageDialog(this, "Book deleted successfully!");
-            loadBookTable();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error deleting book: " + e.getMessage());
-        }
-    }
-
-    // Method to reset all input fields
-    private void resetBookFields() {
-        txtTitle.setText("");
-        txtAuthor.setText("");
-        txtGenre.setText("");
-        yearPublished.setDate(null);
-    }
-
-    // Method to handle when a table row is clicked for updating or deleting
-    private void bookMouse() {
-        try {
-            int selectedRow = tblBook.getSelectedRow();
-            if (selectedRow < 0) {
-                return;
-            }
-
-            txtTitle.setText(tblBook.getValueAt(selectedRow, 1).toString());
-            txtAuthor.setText(tblBook.getValueAt(selectedRow, 2).toString());
-            txtGenre.setText(tblBook.getValueAt(selectedRow, 3).toString());
-            yearPublished.setDate((Date) tblBook.getValueAt(selectedRow, 4));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading book details: " + e.getMessage());
-        }
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -367,10 +114,10 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.LINE_AXIS));
 
         btnMember.setBackground(new java.awt.Color(0, 0, 81));
-        btnMember.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add-user (1).jpg"))); // NOI18N
+        btnMember.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/member-add-on-300x300 (2).png"))); // NOI18N
         btnMember.setText("Member");
         btnMember.setColorHover(new java.awt.Color(0, 191, 125));
-        btnMember.setColorTextHover(new java.awt.Color(89, 255, 255));
+        btnMember.setColorTextHover(new java.awt.Color(51, 51, 255));
         btnMember.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
         btnMember.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -380,10 +127,10 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel2.add(btnMember);
 
         btnBook.setBackground(new java.awt.Color(89, 40, 237));
-        btnBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/book.png"))); // NOI18N
+        btnBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/New book (2).png"))); // NOI18N
         btnBook.setText("Book");
         btnBook.setColorHover(new java.awt.Color(0, 191, 125));
-        btnBook.setColorTextHover(new java.awt.Color(89, 255, 255));
+        btnBook.setColorTextHover(new java.awt.Color(51, 51, 255));
         btnBook.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
         btnBook.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -396,7 +143,7 @@ public class AdminPage extends javax.swing.JFrame {
         btnAdminRegister.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add-user (1).jpg"))); // NOI18N
         btnAdminRegister.setText("Admin");
         btnAdminRegister.setColorHover(new java.awt.Color(0, 191, 125));
-        btnAdminRegister.setColorTextHover(new java.awt.Color(89, 255, 255));
+        btnAdminRegister.setColorTextHover(new java.awt.Color(51, 51, 255));
         btnAdminRegister.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
         btnAdminRegister.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -409,7 +156,7 @@ public class AdminPage extends javax.swing.JFrame {
         btnLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/logout.png"))); // NOI18N
         btnLogout.setText("LogOut");
         btnLogout.setColorHover(new java.awt.Color(0, 191, 125));
-        btnLogout.setColorTextHover(new java.awt.Color(89, 255, 255));
+        btnLogout.setColorTextHover(java.awt.Color.red);
         btnLogout.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
         btnLogout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -422,6 +169,7 @@ public class AdminPage extends javax.swing.JFrame {
         btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/off.png"))); // NOI18N
         btnExit.setText("Exit");
         btnExit.setColorHover(new java.awt.Color(0, 191, 125));
+        btnExit.setColorTextHover(new java.awt.Color(122, 15, 15));
         btnExit.setFont(new java.awt.Font("Source Sans 3", 1, 18)); // NOI18N
         btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -431,7 +179,7 @@ public class AdminPage extends javax.swing.JFrame {
         jPanel2.add(btnExit);
 
         lblAdminShow.setBackground(new java.awt.Color(0, 0, 0));
-        lblAdminShow.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 13)); // NOI18N
+        lblAdminShow.setFont(new java.awt.Font("Source Sans 3 ExtraBold", 0, 15)); // NOI18N
         lblAdminShow.setForeground(new java.awt.Color(0, 191, 125));
 
         javax.swing.GroupLayout imgPanelLayout = new javax.swing.GroupLayout(imgPanel);
@@ -439,7 +187,8 @@ public class AdminPage extends javax.swing.JFrame {
         imgPanelLayout.setHorizontalGroup(
             imgPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(imgPanelLayout.createSequentialGroup()
-                .addComponent(lblAdminShow, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addComponent(lblAdminShow, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(100, Short.MAX_VALUE))
@@ -525,6 +274,7 @@ public class AdminPage extends javax.swing.JFrame {
         txtCardNumber.setPlaceholder("Enter CardNumber");
         panelMember.add(txtCardNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 210, 230, -1));
 
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-add-button-32 (2).png"))); // NOI18N
         btnAdd.setText("Add");
         btnAdd.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnAdd.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -535,6 +285,7 @@ public class AdminPage extends javax.swing.JFrame {
         panelMember.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 290, -1, 28));
 
         btnUpdate.setBackground(new java.awt.Color(0, 0, 81));
+        btnUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/save-icon--1.png"))); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnUpdate.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -544,6 +295,7 @@ public class AdminPage extends javax.swing.JFrame {
         });
         panelMember.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, -1, 28));
 
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/red-x-mark-transparent-background-3 (2).png"))); // NOI18N
         btnDelete.setText("Delete");
         btnDelete.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -554,6 +306,7 @@ public class AdminPage extends javax.swing.JFrame {
         panelMember.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 290, -1, 28));
 
         btnReset.setBackground(new java.awt.Color(0, 0, 81));
+        btnReset.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/icons8-minus-16 (2).png"))); // NOI18N
         btnReset.setText("Reset");
         btnReset.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnReset.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -831,22 +584,22 @@ public class AdminPage extends javax.swing.JFrame {
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
-        addMember();
+        memberController.saveMember();
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
         // TODO add your handling code here:
-        updateMember();
+         memberController.saveMember();
     }//GEN-LAST:event_btnUpdateMouseClicked
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
         // TODO add your handling code here:
-        deleteMember();
+         memberController.deleteMember();
     }//GEN-LAST:event_btnDeleteMouseClicked
 
     private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
         // TODO add your handling code here:
-        resetFields();
+         memberController.clearFields();
     }//GEN-LAST:event_btnResetMouseClicked
 
     private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
@@ -859,34 +612,34 @@ public class AdminPage extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnExitMouseClicked
 
-    private void tblMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMemberMouseClicked
-        // TODO add your handling code here:
-        memberMouse();
-    }//GEN-LAST:event_tblMemberMouseClicked
-
+    
+    
     private void tblBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookMouseClicked
         // TODO add your handling code here:
-        bookMouse();
+         bookController.tblBook();
     }//GEN-LAST:event_tblBookMouseClicked
 
     private void btnResetBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetBookMouseClicked
         // TODO add your handling code here:
-        resetBookFields();
+        bookController.clearBookFields();
+        
     }//GEN-LAST:event_btnResetBookMouseClicked
 
     private void btnDeleteBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteBookMouseClicked
         // TODO add your handling code here:
-        deleteBook();
+        bookController.deleteBook();
+        
     }//GEN-LAST:event_btnDeleteBookMouseClicked
 
     private void btnUpdateBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateBookMouseClicked
         // TODO add your handling code here:
-        updateBook();
+        bookController.updateBook();
     }//GEN-LAST:event_btnUpdateBookMouseClicked
 
     private void btnAddBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddBookMouseClicked
         // TODO add your handling code here:
-        addBook();
+        bookController.addBook();
+        
     }//GEN-LAST:event_btnAddBookMouseClicked
 
     private void btnAdminRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAdminRegisterMouseClicked
@@ -896,6 +649,11 @@ public class AdminPage extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_btnAdminRegisterMouseClicked
+
+    private void tblMemberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMemberMouseClicked
+        // TODO add your handling code here:
+        memberController.tblMember();
+    }//GEN-LAST:event_tblMemberMouseClicked
 
     /**
      * @param args the command line arguments

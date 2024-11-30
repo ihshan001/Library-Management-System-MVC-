@@ -105,6 +105,7 @@ public class AdminLogin extends javax.swing.JFrame {
         jPanel1.add(txtPass, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 310, 40));
 
         btnLogin.setBackground(new java.awt.Color(67, 150, 209));
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/login.png"))); // NOI18N
         btnLogin.setText("login");
         btnLogin.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -142,7 +143,7 @@ public class AdminLogin extends javax.swing.JFrame {
 
         jLabel9.setFont(new java.awt.Font("Source Sans 3 SemiBold", 0, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(153, 255, 255));
-        jLabel9.setText("Hello, Friend");
+        jLabel9.setText("Hello, Admin");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, -1, -1));
 
         back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/back.png"))); // NOI18N
