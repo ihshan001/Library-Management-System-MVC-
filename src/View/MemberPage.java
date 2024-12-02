@@ -27,22 +27,28 @@ public class MemberPage extends javax.swing.JFrame {
    
 
     public MemberPage() {
-        initComponents();
-        try {
-            
-            Connection connection = DatabaseConnection.getConnection();
-            bookController=new BookController(connection, txtTitleSearch, txtAuthorSearch, txtGenreSearch, tblBookSearch);
-            
-            bookController.loadBook();
-            
-           
-           
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error initializing database connection: " + e.getMessage());
-        }
+    initComponents();
+    try {
+        Connection connection = DatabaseConnection.getConnection();
+        
+        
+        bookController = new BookController(connection, txtTitleSearch, txtAuthorSearch, txtGenreSearch, tblBookSearch) {
+            @Override
+            public void loadBook() {
+                
+                super.loadBook();
+                
+                
+            }
+        };
+        
+        
+        bookController.loadBook();
 
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error initializing database connection: " + e.getMessage());
     }
+}
     
     
     

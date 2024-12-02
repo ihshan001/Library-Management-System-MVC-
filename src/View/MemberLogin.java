@@ -34,6 +34,7 @@ public class MemberLogin extends javax.swing.JFrame {
         btnLogin = new rojerusan.RSMaterialButtonRectangle();
         resetBtn = new rojerusan.RSMaterialButtonRectangle();
         back = new rojerusan.RSLabelImage();
+        rSLabelImage2 = new rojerusan.RSLabelImage();
         rSLabelImage1 = new rojerusan.RSLabelImage();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -123,6 +124,10 @@ public class MemberLogin extends javax.swing.JFrame {
         });
         jPanel2.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 40, 30));
 
+        rSLabelImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/lock.png"))); // NOI18N
+        rSLabelImage2.setText("");
+        jPanel2.add(rSLabelImage2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 220, 280));
+
         rSLabelImage1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg/login21.jpg"))); // NOI18N
         jPanel2.add(rSLabelImage1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 340));
 
@@ -210,6 +215,7 @@ public class MemberLogin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private rojerusan.RSButtonHover rSButtonHover1;
     private rojerusan.RSLabelImage rSLabelImage1;
+    private rojerusan.RSLabelImage rSLabelImage2;
     private rojerusan.RSMaterialButtonRectangle resetBtn;
     private rojerusan.RSPasswordTextPlaceHolder txtPass;
     private rojerusan.RSMetroTextPlaceHolder txtUName;

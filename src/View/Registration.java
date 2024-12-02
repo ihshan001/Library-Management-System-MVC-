@@ -75,6 +75,8 @@ public class Registration extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         signUpBtn = new rojerusan.RSMaterialButtonRectangle();
+        rSLabelImage3 = new rojerusan.RSLabelImage();
+        back = new rojerusan.RSLabelImage();
         rSLabelImage2 = new rojerusan.RSLabelImage();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -217,6 +219,18 @@ public class Registration extends javax.swing.JFrame {
         });
         jPanel1.add(signUpBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 230, 150, 50));
 
+        rSLabelImage3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/unlock 2.png"))); // NOI18N
+        rSLabelImage3.setText("lock");
+        jPanel1.add(rSLabelImage3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 380, 340));
+
+        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/back.png"))); // NOI18N
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backMouseClicked(evt);
+            }
+        });
+        jPanel1.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, 40, 30));
+
         rSLabelImage2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/bg/login21.jpg"))); // NOI18N
         jPanel1.add(rSLabelImage2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 760, 480));
 
@@ -263,6 +277,13 @@ public class Registration extends javax.swing.JFrame {
         R.setVisible(true);
     }//GEN-LAST:event_signUpBtnMouseClicked
 
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
+        // TODO add your handling code here:
+        AdminPage ra= new AdminPage();
+        this.hide();
+        ra.setVisible(true);
+    }//GEN-LAST:event_backMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -299,6 +320,7 @@ public class Registration extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private rojerusan.RSLabelImage back;
     private rojerusan.RSMaterialButtonRectangle btnRegister;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -312,6 +334,7 @@ public class Registration extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private rojerusan.RSButtonHover rSButtonHover1;
     private rojerusan.RSLabelImage rSLabelImage2;
+    private rojerusan.RSLabelImage rSLabelImage3;
     private rojerusan.RSMaterialButtonRectangle resetBtn;
     private rojerusan.RSMaterialButtonRectangle signUpBtn;
     private rojerusan.RSMetroTextPlaceHolder txtAddress;
