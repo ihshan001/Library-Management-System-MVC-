@@ -1,7 +1,6 @@
 # 📚 Library Management System (MVC)
-<sub><sup><i>Final Project for <b>SLIATE HNDIT</b></i></sup></sub>
+<sub><sup><i>Sememter 3 Project for <b>SLIATE HNDIT</b></i></sup></sub>
 
-> 🚧 **Note:** Project is still in development!
 
 ---
 
