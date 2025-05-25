@@ -1,93 +1,56 @@
 📚 Library Management System (MVC)
-A Java-based Library Management System utilizing the Model-View-Controller (MVC) design pattern. This project is ideal for efficiently managing library resources, users, and transactions, and offers a modular, scalable architecture suitable for educational or practical deployment.
+<sub><sup><i>Final Project for <b>SLIATE HNDIT</b></i></sup></sub>
 
-🚀 Features
-User Authentication & Role-Based Access
-Admin, Librarian, Student roles
-Book Catalog Management
-Add, update, delete, search books
-Issue & Return Book Functionality
-Fine Calculation for overdue books
-Member Management
-Add, update, remove members
-Transaction History & Reporting
-MVC Architecture for clean separation of concerns
-🛠 Technologies & Libraries Used
-Java (Core)
+Note: Still working on this project! 🚧
+
+✨ Features
+📖 Manage book & member profiles
+👩‍💼 Staff and library management
+📝 Track book lending and returns
+📊 Monitor library activities
+🖥️ User-friendly interface
+🛠️ Requirements
+Java (JDK 8 or later)
+NetBeans IDE (Recommended)
+Database: MySQL
 External Libraries:
 RSCalendar.jar
 RSFoto_v1.0.jar
 MySQL Connector/J (version 9)
-IDE: NetBeans
-GUI: Java Swing/AWT or JavaFX (specify which, if applicable)
-Database: MySQL
-Build Tool: Managed via NetBeans project structure
-🏁 Getting Started
-Prerequisites
-Java Development Kit (JDK 8 or higher)
-MySQL Database
-NetBeans IDE (recommended)
-External libraries:
-RSCalendar.jar
-RSFoto_v1.0.jar
-mysql-connector-java-9.x.x.jar
-Add these to your project’s library list
-Setup Instructions
-1. Clone the Repository:
-
+FlatLaf (for modern UI look and feel)
+⚡ Getting Started
+1. Clone the repository
 bash
 git clone https://github.com/ihshan001/Library-Management-System-MVC-.git
-cd Library-Management-System-MVC-
-2. Open with NetBeans:
+2. Open the project in NetBeans
+Launch NetBeans IDE.
+Go to File > Open Project... and select the cloned folder.
+3. Add External Libraries
+Right-click the project in the NetBeans Projects panel.
+Choose Properties → Libraries → Add JAR/Folder...
+Add:
+RSCalendar.jar
+RSFoto_v1.0.jar
+mysql-connector-java-9.x.x.jar (replace x.x with your version)
+FlatLaf JAR
+4. Configure the Database
+Make sure MySQL is installed and running.
+Create a database (e.g., library_db).
+Import the provided SQL schema if available.
+Update the database connection settings in the project source (look for config or connection files).
+5. Build and Run
+Click the green "Run" (▶️) button in NetBeans or press F6.
+Login with the default credentials if provided.🤝 Contributing
+Fork this repo
+Create a new branch (git checkout -b feature/YourFeature)
+Commit your changes (git commit -am 'Add your feature')
+Push to the branch (git push origin feature/YourFeature)
+Create a Pull Request
+📝 License
+This project is for educational purposes as part of the SLIATE HNDIT final project.
 
-Open NetBeans IDE
-Go to File > Open Project and select the cloned folder
-3. Add Libraries:
+📞 Contact
+Project by ihshan001
+For queries, open an issue
+Feel free to further customize this README with badges, more screenshots, or advanced Markdown as your project progresses!
 
-Right-click the project in NetBeans
-Choose Properties > Libraries > Add JAR/Folder
-Add RSCalendar.jar, RSFoto_v1.0.jar, and mysql-connector-java-9.x.x.jar
-4. Configure the Database:
-
-Create a MySQL database (e.g., library_db)
-Import the provided SQL schema (if available)
-Update the database connection settings in the project files
-(e.g., in db.properties or the relevant Java class)
-5. Build and Run the Project:
-
-Right-click the project and select Run in NetBeans
-6. Login:
-
-Use default credentials (if set) or create a new admin user
-📂 Project Structure
-Code
-src/
-│
-├── controller/
-├── model/
-├── view/
-├── util/
-└── Main.java
-controller/ — Handles user input and application logic
-model/ — Represents the data and business rules
-view/ — Manages the GUI
-util/ — Utility classes (e.g., database connection)
-🤝 Contributing
-Fork the repo
-Create your feature branch:
-bash
-git checkout -b feature/YourFeature
-Commit your changes:
-bash
-git commit -am 'Add some feature'
-Push to the branch:
-bash
-git push origin feature/YourFeature
-Open a Pull Request
-⚖️ License
-This project is licensed under the MIT License.
-See LICENSE for details.
-
-👤 Author
-ihshan001
-GitHub Profile
