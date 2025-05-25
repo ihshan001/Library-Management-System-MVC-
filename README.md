@@ -57,31 +57,34 @@ mysql-connector-java-9.x.x.jar
 FlatLaf.jar
 
 4. Configure the Database
-Start MySQL and create a database (e.g., library_db)
+Ensure MySQL is installed and running
+
+Create a new database (e.g., library_db)
 
 Import the provided .sql schema (if available)
 
-Update DB connection settings in the project (usually in config or connection files)
+Update the DB connection settings in the source code (config or Connection.java)
 
 5. Build & Run
 Click the green ▶️ Run button or press F6
 
-Use default credentials (if provided)
+Login using default credentials (if provided)
 
 🤝 Contributing
+Fork this repo
+
+Create a new branch:git checkout -b feature/YourFeature
+Commit your changes:
+
 bash
 Copy
 Edit
-# Fork this repository
-git fork https://github.com/ihshan001/Library-Management-System-MVC-.git
+git commit -am "Add your feature"
+Push to the branch:
 
-# Create a new branch
-git checkout -b feature/YourFeature
-
-# Commit your changes
-git commit -am 'Add your feature'
-
-# Push to the branch
+bash
+Copy
+Edit
 git push origin feature/YourFeature
 Create a Pull Request on GitHub
 
