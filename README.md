@@ -1,6 +1,7 @@
 # 📚 Library Management System (MVC)
-<sub><sup><i>Sememter 3 Project for <b>SLIATE HNDIT</b></i></sup></sub>
+<sub><sup><i>Final Project for <b>SLIATE HNDIT</b></i></sup></sub>
 
+> 🚧 **Note:** Project is still in development!
 
 ---
 
@@ -58,28 +59,36 @@ FlatLaf.jar
 4. Configure the Database
 Start MySQL and create a database (e.g., library_db)
 
-Import provided .sql schema (if available)
+Import the provided .sql schema (if available)
 
 Update DB connection settings in the project (usually in config or connection files)
 
 5. Build & Run
 Click the green ▶️ Run button or press F6
 
-Use default credentials (if given)
+Use default credentials (if provided)
 
 🤝 Contributing
 bash
 Copy
 Edit
-# Fork this repo
+# Fork this repository
+git fork https://github.com/ihshan001/Library-Management-System-MVC-.git
+
+# Create a new branch
 git checkout -b feature/YourFeature
+
+# Commit your changes
 git commit -am 'Add your feature'
+
+# Push to the branch
 git push origin feature/YourFeature
-Create a Pull Request 🧪
+Create a Pull Request on GitHub
 
 📝 License
-This project is developed for educational purposes as part of the SLIATE HNDIT Final Project.
+This project is for educational purposes as part of the SLIATE HNDIT final project.
+Feel free to explore, learn, and enhance the system for academic growth.
 
 📞 Contact
-Project by: ihshan001
-💬 For queries: Open an issue
+Developer: ihshan001
+For issues, bugs, or suggestions, feel free to open an issue
